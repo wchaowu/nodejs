@@ -1,0 +1,93 @@
+*{margin:0;padding:0;-moz-user-select:none;-khtml-user-select:none;user-select:none}
+form,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,p{list-style:none outside none}
+a{text-decoration:none;color:#ccc;outline:none}
+a:hover{text-decoration:underline;color:#1298F4}
+a img{border:none}
+.fr{float:right}
+.fl{float:left}
+body{height:100%;font:12px/1.8 Microsoft YaHei,simsong;height:100%;overflow:hidden}
+
+/*noscript*/
+.ie-noscript-warning{position:absolute;left:50%;top:50%}
+.ie-noscript-warning div{position:relative;left:-210px;top:-110px;width:384px;height:171px;background:url(ienoscript.gif) red no-repeat;opacity:0.7;filter:alpha(opacity=70);padding:10px 15px}
+
+/*任务栏*/
+#task-bar{position:absolute;right:0;bottom:0;left:0;width:100%;height:29px;overflow:hidden;border-top:1px solid #272C36;border-color:rgba(20, 20, 20, 0.8);background:#31323A;background:rgba(40, 40, 40, 0.9);opacity:0.9;filter:alpha(opacity=90)}
+.task-window{position:absolute;top:0;right:60px;left:2px;height:28px;overflow:hidden;float: left;}
+.task-window li{position:relative;float:left;width:125px;height:26px;margin-right:1px;overflow:hidden;color:#F4F4F4;border:1px solid #272C36;border-color:rgba(30, 30, 30, 0.7);cursor:pointer}
+.task-window b{background:url(../images/desktop_spr_x.png) repeat-x;display:block;height:24px;font-weight:normal;border:1px solid;border-color:#6F758A #585C6D #414F5A}
+.task-window b:hover{border-color:#AEB2BA #9196A1 #616A77;background-position:0 -25px}
+.task-window b:active{border-color:#647382 #8A91A0 #9398A6;background-position:0 -50px}
+.task-window b.focus{border-color:#B8BFCA #9EA8B7 #8A99A9;background-position:0 -75px}
+.task-window img{position:absolute;top:5px;left:5px;width:16px;height:16px;border-radius:3px}
+.task-window span{display:block;width:95px;height:24px;padding-left:25px;line-height:25px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.task-panel{position:absolute;top:0;right:0px;height:28px;overflow:hidden;float: left;}
+.task-panel li{position:relative;float:left;width:100px;height:26px;text-align: center;margin-right:1px;overflow:hidden;color:#F4F4F4;border:1px solid #272C36;border-color:rgba(30, 30, 30, 0.7);cursor:pointer}
+.task-panel b{background:url(../images/desktop_spr_x.png) repeat-x;display:block;height:24px;font-weight:normal;border:1px solid;border-color:#6F758A #585C6D #414F5A}
+.task-panel b:hover{border-color:#AEB2BA #9196A1 #616A77;background-position:0 -25px}
+.task-panel b:active{border-color:#647382 #8A91A0 #9398A6;background-position:0 -50px}
+.task-panel b.focus{border-color:#B8BFCA #9EA8B7 #8A99A9;background-position:0 -75px}
+.task-panel img{position:absolute;top:5px;left:5px;width:16px;height:16px;border-radius:3px}
+.task-panel span{display:block;width:95px;height:24px;line-height:25px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.desktop-view{background-position:0 0}
+.desktop-view:hover{background-position:-23px 0}
+.desktop-view:active{background-position:-46px 0}
+
+/*桌面*/
+#desk{position:absolute;top:0;bottom:30px;width:100%;overflow:hidden;*z-index:2}
+/*for IE6*/
+*html #desk{
+    height:expression((function(el){
+        el.style.height=document.body.clientHeight-30+"px";
+})(this));
+}
+/*禁止选中,IE下不兼容*/
+#desk ul li,
+#desk ul li span,
+.title-bar{-moz-user-select:none;-khtml-user-select:none;user-select:none}
+#desk ul{width:100%;height:100%;overflow:hidden;position:absolute}
+#desk ul li{width:80px;height:57px;padding:10px 0;text-align:center;position:absolute;cursor:pointer}
+#desk ul li img{border-radius:3px 3px 3px 3px;display:block;height:32px;width:32px;margin:auto}
+#desk ul li span{background:none repeat scroll 0 0 rgba(0, 0, 0, 0.3);border-radius:10px 10px 10px 10px;filter:none;color:#fff;display:inline-block;height:20px;line-height:20px;margin-top:5px;overflow:hidden;padding:0 8px;position:relative;text-align:center;text-overflow:ellipsis;white-space:nowrap;z-index:1;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/ui/shortcut_text.png', sizingMethod='scale')}
+#desk ul li em{display:none;position:absolute;top:0;left:0;z-index:0;width:80px;height:77px;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;background:#000;opacity:0.12;filter:alpha(opacity=12)}
+#desk ul li:hover em,
+#desk ul li.hover em{display:block}
+#desk ul li.focus em{display:block;opacity:0.25;filter:alpha(opacity=25)}
+
+/*窗口*/
+.window-container{position:absolute;padding:2px;overflow:hidden;border-radius:3px;background:#656672;box-shadow:0 1px 5px rgba(0, 0, 0, 0.4)}
+.window-current{background:#363740;box-shadow:0 1px 10px rgba(0, 0, 0, 0.6)}
+.title-bar{background-color:#EBEBEB;border: 1px solid #ccc;position:relative;z-index:10;height:26px;padding:0 20px;line-height:26px;overflow:hidden;color:#393836;font-weight: bold;border-bottom:1px solid #CCC;cursor:move;border-radius: 3px 3px 0 0;}
+.window-current .title-bar{background-position:0 -31px}
+.title-handle{overflow: hidden;position: absolute;right: 5px;top: 4px;}
+.title-handle a{float:left;width:19px;height:21px;margin-left:5px;line-height:10;overflow:hidden;background-image:url(../images/sprite_main_png.png);background-repeat:no-repeat}
+.ha-min{background-position:-5px -58px}
+.ha-min:hover{background-position:-5px -30px;}
+.ha-max{background-position:-34px -59px}
+.ha-max:hover{background-position:-34px -30px}
+.ha-revert{background-position:-94px -59px}
+.ha-revert:hover{background-position:-94px -30px}
+.ha-close{background-position:-64px -59px}
+.ha-close:hover{background-position:-64px -30px}
+.window-frame{position:absolute;top:30px;right:2px;bottom:32px;*bottom:29px;left:2px;background:#FFF}
+/*for IE6*/
+*html .window-frame{
+    height:expression((function(el){
+        el.style.height=el.parentNode.clientHeight-59+"px";
+})(this));
+}
+.window-frame iframe{position:absolute;border:0;height:100%;width:100%;top:0;bottom:0;left:0;right:0}
+.set-bar{_width:100%;position:absolute;background:#E8E8E8;border-top:1px solid #b9b9b9;bottom:0;height:30px;left:2px;right:2px;bottom:2px}
+.set-bar .btn{margin-top:3px;margin-right:5px;border:1px solid #E8E8E8;border-radius:3px 3px 3px 3px;color:#7D7D7D;cursor:pointer;display:inline-block;height:20px;padding:1px;position:relative}
+.set-bar .btn:hover{border:1px solid #7D7D7D;background:#fff;color:#333;text-decoration:none}
+.set-bar .btn .icon{left:8px;position:absolute;top:3px}
+.set-bar .btn .btn-con{height:20px;line-height:21px;overflow:hidden;padding:0 8px;}
+
+/*右键提示*/
+.popup-menu{background:url(popup_menu.gif) repeat-y scroll 0 0 #FFFFFF;border:1px solid #AEAEAE;box-shadow:0 0 6px rgba(0, 0, 0, 0.4);position:absolute;width:125px}
+.popup-menu ul{padding:1px;position:relative}
+.popup-menu li{height:24px;position:relative;vertical-align:middle}
+.popup-menu a{background-position:100px 100px;border-radius:2px 2px 2px 2px;color:#333333;display:block;height:24px;line-height:24px;overflow:hidden;padding-left:35px}
+.popup-menu a:hover,.popup-menu a.focus{background-color:#3B7CE6;background-position:0 -780px;color:#FFFFFF;text-decoration:none}

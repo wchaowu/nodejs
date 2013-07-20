@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Bootstrap Admin</title>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+	<% include ../includePage/refResource.html %>	
+		<link rel="stylesheet" href="/styles/lib/kindeditor/themes/default/default.css" />
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+  <!--[if lt IE 7 ]> <body class="ie ie6"> <![endif]-->
+  <!--[if IE 7 ]> <body class="ie ie7 "> <![endif]-->
+  <!--[if IE 8 ]> <body class="ie ie8 "> <![endif]-->
+  <!--[if IE 9 ]> <body class="ie ie9 "> <![endif]-->
+  <!--[if (gt IE 9)|!(IE)]><!--> 
+  <body class=""> 
+  <!--<![endif]-->
+    
+	<% include ../includePage/header.html %>
+    
+	<% include ../includePage/navigation.html %>
+	    
+    <div class="content">
+        <div class="articleContent">
+       <form class="form-horizontal" method="post" action="/article/saveArticleDetail">
+       <input type="hidden" value="<%=article._id%>" name="id" id="txtId" />
+       <div class="control-group">
+    <label class="control-label" for="ddlArticleType">article type</label>
+    <div class="controls">
+      <select  id="ddlArticleType" placeholder="类型" name="txtType"></select>
+        <a  href="#btnAddArticle" role="button" class="btn" data-toggle="modal">添 加</a>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="txtTitle">title</label>
+    <div class="controls">
+      <input type="text" id="txtTitle" placeholder="请输入标题" value="<%=article.title%>" name="txtTitle">
+    </div>
+  </div>
+    <div class="control-group">
+    <label class="control-label" for="txtSummary">summary</label>
+    <div class="controls">
+     <textarea rows="3"  id="txtSummary" style="width: 650px;" placeholder="标题描述内容" name="txtSummary"><%=article.summary%></textarea>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="txtContent">content</label>
+    <div class="controls">
+    <textarea rows="5"  id="txtContent" placeholder=" add content" name="txtContent"><%=article.content%></textarea>
+     
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">     
+      <button type="submit" class="btn">save</button>
+    </div>
+  </div>
+</form>
+        <!-- Modal -->
+        <div id="btnAddArticle" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <form action="/article/saveArticleType" method="post" id="formArticleType">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3>添加文章的分类</h3>
+            </div>
+            <div class="modal-body">
+
+                     <div class="control-group">
+                     类型名称： <input type="text" id="txtArticleType" name="txtArticleType" width="300"/>
+                         </div>
+                     <div class="control-group">
+                     分类的Logo：<input type="file" id="txtTypeLogo" width="300" name="articleLogo" />
+                     </div>
+                     <div class="control-group">
+                         描述信息：<textarea row="3" id="txtDescribe" name="txtDescribe" width="300" ></textarea>
+                     </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                <input type="submit" class="btn btn-primary"  value="save" />
+            </div>
+            </form>
+        </div>
+        </div>
+    </div>
+    <script src="/js/lib/bootstrap/bootstrap.js"></script>
+    <script  charset="utf-8" src="/js/lib/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8"  src="/js/lib/kindeditor/lang/zh_CN.js"></script>
+    <script src="/js/lib/jqueryPlug/jquery.form.js"></script>
+    <script type="text/javascript">
+        $(function(){
+
+                    var options = {
+                        beforeSubmit:  showRequest,  // pre-submit callback
+                        success:       showResponse  // post-submit callback
+
+                    };
+                $("#formArticleType").ajaxForm(options);
+                function showRequest(formData, jqForm, options) {
+                    var queryString = $.param(formData);
+                   alert(11);
+                    return true;
+                }
+
+                function showResponse(responseText, statusText)  {
+                    alert('status: ' + statusText + '\n\nresponseText: \n' + responseText);
+                }
+
+            var ajaxGetAtricleType = function () {
+                var argUrl = "/article/articleTypeAll";
+                jQuery.ajax({
+                    dataType: "json",
+                    type: "GET",
+                    contentType: "application/x-www-form-urlencoded; charset=gb2312",
+                    url: argUrl,
+                    cache: false,
+                    async: true,
+                    success: function (data) {
+                        if (data) {
+                            onloadAricleType(data);
+                        }
+                    },
+                    error: function (ex) {
+
+
+                    }
+                });
+            }
+            function onloadAricleType(objArticle){
+                var articleValue ="<%=article.refArticleId%>";
+                var ddlArticleType = $("#ddlArticleType");
+                var optionHtml="";
+              for(var i=0;i<objArticle.length;i++){
+                  optionHtml+="<option value='"+objArticle[i]._id+"'>"+objArticle[i].articleType+"</option>";
+              }
+                ddlArticleType.append(optionHtml);
+                if(articleValue){
+                    ddlArticleType.val(articleValue);
+                }
+
+            }
+             ajaxGetAtricleType();
+
+        });
+    var editorContent,editSummary;
+	KindEditor.ready(function(K) {
+		editSummary = K.create('textarea[name="txtSummary"]', {
+			resizeType : 1,
+			allowPreviewEmoticons : false,
+			allowImageUpload : false,
+			width:"670px",
+			items : [
+				'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+				'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+				'insertunorderedlist', '|', 'emoticons', 'image', 'link']
+		});
+		editorContent = K.create('textarea[name="txtContent"]', {	
+			allowFileManager : true,
+			height  : '300px',
+			width:"670px"
+		});	
+	});
+
+    </script>
+    
+  </body>
+</html>
+
+

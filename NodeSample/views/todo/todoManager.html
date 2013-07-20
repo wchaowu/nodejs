@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Bootstrap Admin</title>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+	<% include ../includePage/refResource.html %>	
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+  <!--[if lt IE 7 ]> <body class="ie ie6"> <![endif]-->
+  <!--[if IE 7 ]> <body class="ie ie7 "> <![endif]-->
+  <!--[if IE 8 ]> <body class="ie ie8 "> <![endif]-->
+  <!--[if IE 9 ]> <body class="ie ie9 "> <![endif]-->
+  <!--[if (gt IE 9)|!(IE)]><!--> 
+  <body class=""> 
+  <!--<![endif]-->
+    
+	<% include ../includePage/header.html %>
+    
+	<% include ../includePage/navigation.html %>
+	    
+    <div class="content">
+        <div class="articleContent">
+       <form class="form-horizontal" method="post" action="/article/saveArticleDetail">
+       <input type="hidden" value="<%=article._id%>" name="id" id="txtId" />
+       <div class="control-group">
+    <label class="control-label" for="ddlArticleType">article type</label>
+    <div class="controls">
+      <select  id="ddlArticleType" placeholder="类型" name="txtType"></select>
+        <a  href="#btnAddArticle" role="button" class="btn" data-toggle="modal">添 加</a>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="txtTitle">title</label>
+    <div class="controls">
+      <input type="text" id="txtTitle" placeholder="请输入标题" value="<%=article.title%>" name="txtTitle">
+    </div>
+  </div>
+    <div class="control-group">
+    <label class="control-label" for="txtSummary">summary</label>
+    <div class="controls">
+     <textarea rows="3"  id="txtSummary" style="width: 650px;" placeholder="标题描述内容" name="txtSummary"><%=article.summary%></textarea>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="txtContent">content</label>
+    <div class="controls">
+    <textarea rows="5"  id="txtContent" placeholder=" add content" name="txtContent"><%=article.content%></textarea>
+     
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">     
+      <button type="submit" class="btn">save</button>
+    </div>
+  </div>
+</form>
+    <script src="/js/lib/bootstrap/bootstrap.js"></script>
+    <script src="/js/lib/jqueryPlug/jquery.form.js"></script>
+    <script type="text/javascript">
+
+
+
+    </script>
+    
+  </body>
+</html>
+
+

@@ -1,0 +1,110 @@
+
+#tree
+{
+	width: 220px;
+	overflow-x: scroll;
+	float: left;
+	white-space: nowrap;
+}
+#rightPanel
+{
+	float: left;
+}
+#path
+{
+	padding-top: 10px;
+	clear: both;
+}
+#pathString
+{
+	font-weight: bold;
+}
+#menu
+{
+}
+.menuItem
+{
+	float: left;
+	width: 50px;
+	height: 60px;
+	text-align: center;
+	cursor: pointer;
+	border: solid 1px #eee;
+	margin: 3px;
+}
+.menuItemImg
+{
+	width: 32px;
+	height: 32px;
+}
+.tipText
+{
+	width: 50px;
+	font-size: 13px;
+	text-align: center;
+	height: 13px;
+}
+#fileListHead
+{
+	background-color: #efefef;
+}
+#fileListHead div
+{
+	background-color: #efefef;
+	font-weight: bold;
+}
+.chkColumn
+{
+	float: left;
+	padding-top: 1px;
+	padding-bottom: 2px;
+	text-align: center;
+}
+.fileType
+{
+	float: left;
+	padding: 4px;
+	width: 60px;
+	text-align: center;
+}
+.fileType img
+{
+	width: 16px;
+	height: 16px;
+}
+.fileName
+{
+	float: left;
+	padding: 4px;
+	width: 350px;
+}
+.fileSize
+{
+	float: left;
+	padding: 4px;
+	width: 70px;
+}
+.lastUpdate
+{
+	float: left;
+	padding: 4px;
+	width: 150px;
+}
+.rename
+{
+	float: left;
+	text-align: center;
+	padding: 4px;
+	width: 50px;
+}
+#filelist
+{
+	overflow: auto;
+	float: left;
+	width: 700px;
+}
+.fileItem
+{
+	clear: both;
+	border-bottom: solid 1px #ccc;
+}

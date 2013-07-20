@@ -1,4 +1,5 @@
-nodejs
-======
-
-node.js mongodb知识库管理系统
+node.js
+=======
+Node.js+express.js+mongoose+ejs+monogdb做的
+此Demo只要有javascript的基础就可以看懂。
+框架用的MVC方式。

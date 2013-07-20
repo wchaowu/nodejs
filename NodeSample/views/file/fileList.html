@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Bootstrap Admin</title>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <% include ../includePage/refResource.html %>
+    <link href="/styles/WebExplorer.css" rel="stylesheet" type="text/css" />
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<!--[if lt IE 7 ]> <body class="ie ie6"> <![endif]-->
+<!--[if IE 7 ]> <body class="ie ie7 "> <![endif]-->
+<!--[if IE 8 ]> <body class="ie ie8 "> <![endif]-->
+<!--[if IE 9 ]> <body class="ie ie9 "> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<body class="">
+<!--<![endif]-->
+
+<% include ../includePage/header.html %>
+
+<% include ../includePage/navigation.html %>
+
+<div class="content">
+
+    <div class="articleContent">
+        <div id="rightPanel">
+            <div id="path">
+                当前位置：<span id="pathString"></span>
+            </div>
+            <hr />
+            <!-- 这里是菜单开始 -->
+            <div id="menu">
+                <a href="../" class="menuItem"  id="gotoParentDirectory">
+                    <img class="menuItemImg" src="/images/file/up.gif"  />
+                    <div class="tipText">
+                        向上</div>
+                </a>
+                <a class="menuItem"  href="/file/">
+                    <img class="menuItemImg" src="/images/file/home.gif"  />
+                    <div class="tipText">
+                        根目录</div>
+                </a>
+                <div class="menuItem" onclick="javascript:fileOperator.refresh()">
+                    <img class="menuItemImg" src="/images/file/refersh.gif"  />
+                    <div class="tipText">
+                        刷新</div>
+                </div>
+                <div class="menuItem" onclick="javascript:fileOperator.newDirectory();">
+                    <img class="menuItemImg" src="/images/file/newfolder.gif"  />
+                    <div class="tipText">
+                        新目录</div>
+                </div>
+                <div class="menuItem" onclick="javascript:fileOperator.newFile();">
+                    <img class="menuItemImg" src="/images/file/newfile.gif"  />
+                    <div class="tipText">
+                        新文件</div>
+                </div>
+                <div class="menuItem" onclick="javascript:fileOperator.del();">
+                    <img class="menuItemImg" src="/images/file/delete.gif"  />
+                    <div class="tipText">
+                        删除</div>
+                </div>
+                <div class="menuItem" onclick="javascript:fileOperator.cut();">
+                    <img class="menuItemImg" src="/images/file/cut.gif"  />
+                    <div class="tipText">
+                        剪切</div>
+                </div>
+                <div class="menuItem" onclick="javascript:fileOperator.copy();">
+                    <img class="menuItemImg" src="/images/file/copy.gif"  />
+                    <div class="tipText">
+                        复制</div>
+                </div>
+                <div class="menuItem" onclick="javascript:fileOperator.paste();">
+                    <img class="menuItemImg" src="/images/file/paste.gif"  />
+                    <div class="tipText">
+                        粘贴</div>
+                </div>
+                <div class="menuItem" onclick="javascript:fileOperator.zipFile();">
+                    <img class="menuItemImg" src="/images/file/zipfile.gif"  />
+                    <div class="tipText">
+                        压缩</div>
+                </div>
+                <div class="menuItem" onclick="javascript:fileOperator.unZipFile();">
+                    <img class="menuItemImg" src="/images/file/unzip.gif"  />
+                    <div class="tipText">
+                        解压</div>
+                </div>
+                <div class="menuItem" onclick="javascript:fileOperator.downLoad();">
+                    <img class="menuItemImg" src="/images/file/download.gif"  />
+                    <div class="tipText">
+                        下载</div>
+                </div>
+                <a  href="#btnUpLoad" role="button" role="button" class="btn" data-toggle="modal">
+                <img class="menuItemImg" src="/images/file/upload.gif"  />
+                    <div class="tipText">
+                        上传</div>
+                </a>
+                <div style="clear: both">
+                </div>
+            </div>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" id="ckAll" onchange="fileOperator.ckAllFile()"></th>
+                    <th>类型</th>
+                    <th>名称</th>
+                    <th>大小</th>
+                    <th>最后更新时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+        <% for (var i = 0;i<fileList.arrDirectory.length; i++) {
+        var dirObj = fileList.arrDirectory[i];
+        %>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>文件夹</td>
+        <td ><a href="<%=dirObj.url%>/" ><%=dirObj.name%></a></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+        <%}%>
+            <% for (var i = 0;i<fileList.arrFile.length; i++) {
+            var fileObj = fileList.arrFile[i];
+            %>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td></td>
+            <td><%if(fileObj.isImage){%>
+                <a href="#"><img src="<%=fileObj.url%>" style="width: 40px;height: 30px;" onclick="imageShow(this);" /></a>
+                <%}else{%>
+                <a href="<%=fileObj.url%>"><%=fileObj.name%></a>
+                <%}%>
+            </td>
+                    <td><%=fileObj.size%></td>
+                    <td><%=fileObj.create_date%></td>
+                    <td></td>
+                </tr>
+            <%}%>
+
+    </table>
+    <div id="btnUpLoad" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <form action="/article/saveArticleType" method="post" id="formArticleType">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3>文件上传</h3>
+            </div>
+            <div class="modal-body">
+                 <div class="control-group">
+                    文件名称： <input type="file" id="txtFileDoc1" name="txtFileDoc1" width="300"/>
+                    <input type="hidden" value="1" name="hdFile1">
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                <input type="submit" class="btn btn-primary"  value="upload" />
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+<script src="/js/lib/bootstrap/bootstrap.js"></script>
+<script src="/js/lib/jqueryPlug/jquery.form.js"></script>
+    <script src="/js/lib/image_popup.js"></script>
+<script type="text/javascript">
+    <% if(fileList.isRoot ==true) { %>
+      $("#gotoParentDirectory").attr("href","javascript:void();");
+     <% } %>
+</script>
+</body>
+</html>
+
+

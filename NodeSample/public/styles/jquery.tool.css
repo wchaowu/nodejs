@@ -1,0 +1,260 @@
+/* tooltip */
+.tooltip{padding:5px;font-size:10px;position:absolute;z-index:100000}
+.tooltip-inner{padding:2px 8px 2px 8px;background-color:#fff19d;color:#1f0000;max-width:350px;text-align:left;line-height:14px;border:1px solid #f6bb48;font-family:\5b8b\4f53}
+.tooltip-arrow{position:absolute;background:url(tooltip.gif) no-repeat top left;width:9px;height:5px}
+.tooltip-cls{float:left;background:url(tooltip-cls.gif) no-repeat top left;width:16px;height:16px}
+.tooltip-n .tooltip-arrow{top:0;left:50%;margin-left:-4px}
+.tooltip-nw .tooltip-arrow{top:0;left:10px}
+.tooltip-ne .tooltip-arrow{top:0;right:10px}
+.tooltip-s .tooltip-arrow{bottom:0;left:50%;margin-left:-4px;background-position:bottom left}
+.tooltip-sw .tooltip-arrow{bottom:0;left:10px;background-position:bottom left}
+.tooltip-se .tooltip-arrow{bottom:0;right:10px;background-position:bottom left}
+.tooltip-e .tooltip-arrow{top:50%;margin-top:-4px;right:0;width:5px;height:9px;background-position:top right}
+.tooltip-w .tooltip-arrow{top:50%;margin-top:-4px;left:0;width:5px;height:9px}
+/* jScrollPane */
+.jScrollPaneContainer{position:relative;overflow:hidden;z-index:1;padding:1px}
+.jScrollPaneTrack{position:absolute;;cursor:default;right:0;top:0;height:100%;background:url(jscrollpane-track.gif)}
+.jScrollPaneDrag{position:absolute;background:url(jscrollpane-drag.gif);overflow:hidden;cursor:default}
+.jScrollPaneDragTop{position:absolute;top:0;left:0;overflow:hidden;background:url(jscrollpane-dragbrd.gif) no-repeat 0 0;height:5px;cursor:default}
+.jScrollPaneDragBottom{position:absolute;bottom:0;left:0;overflow:hidden;background:url(jscrollpane-dragbrd.gif) no-repeat 0 -5px;height:5px;cursor:default}
+a.jScrollArrowUp{display:block;position:absolute;z-index:1;top:0;right:0;text-indent:-2000px;overflow:hidden;height:14px;background:url(jscrollpane-arrow.gif) no-repeat 0 0;cursor:default}
+a.jScrollArrowUp:hover{background:url(jscrollpane-arrow.gif) no-repeat 0 -28px}
+a.jScrollArrowDown{display:block;position:absolute;z-index:1;bottom:0;right:0;text-indent:-2000px;overflow:hidden;;height:14px;background:url(jscrollpane-arrow.gif) no-repeat 0 -14px;cursor:default}
+a.jScrollArrowDown:hover{background:url(jscrollpane-arrow.gif) no-repeat 0 -42px}
+a.jScrollActiveArrowButton, a.jScrollActiveArrowButton:hover{}
+/* scrolltotop */
+#topcontrol{z-index:999}
+#topcontrol a{display:block;width:54px;height:41px;background:url(scrolltotop.gif) no-repeat 0 0}
+#topcontrol a:hover{display:block;width:54px;height:41px;background:url(scrolltotop.gif) no-repeat -54px 0}
+/* treeview */
+.treeviewroot{width:100%}
+.treeviewtl span{float:left;height:30px;line-height:30px;padding:10px 0}
+.treeviewhd td{text-align:center;font-family:\5fae\8f6f\96c5\9ed1,\5b8b\4f53;height:25px;line-height:25px;background-color:#dde7f3;letter-spacing:2px;text-indent:5px}
+.treeviewroot a{line-height:30px}
+.treeview{width:100%;cursor:default}
+.treeview .rdiv{float:right;height:30px;text-align:center;color:#aaa}
+.treeview li{display:inline-block;width:100%;clear:both;list-style-type:none;line-height:30px;background:url(treeview-libg.gif) repeat-x left bottom}
+.treeview li span{float:left}
+.treeview li .opn{height:30px;width:20px;background:url(treeview-sign.png) no-repeat center -78px}
+.treeview li .cls{height:30px;width:20px;background:url(treeview-sign.png) no-repeat center -106px}
+.treeview li .none{height:30px;width:20px}
+.treeview li .uncheck{height:30px;width:20px;background:url(treeview-sign.png) no-repeat center -23px}
+.treeview li .checked{height:30px;width:20px;background:url(treeview-sign.png) no-repeat center -53px}
+.treeview li .disablecheck{height:30px;width:20px;background:url(treeview-sign.png) no-repeat center 7px}
+.treeview li.hover_row{background-color:#ffd59e}
+.treeview li.touch_row{background-color:#dbf0ff}
+.treeview li.readonly{}
+/* loadmask */
+.loadmask{z-index:1000;position:absolute;top:0;left:0;-moz-opacity:0.5;opacity:0.5;filter:alpha(opacity=50);background-color:#CCC;width:100%;height:100%;zoom:1}
+.loadmask-msg{z-index:9999;position:absolute;top:0;left:0;border:1px solid #cd0a0a;background:#fef6f3;padding:2px}
+.loadmask-msg div{padding:3px 10px 3px 20px;background:#fbfbfb url(../images/loadmask-loading.gif) no-repeat 5px center;line-height:16px;color:#cd0a0a;cursor:wait}
+.masked{overflow:hidden!important}
+.masked-relative{position:relative!important}
+.masked-hidden{visibility:hidden!important}
+/* zeng */
+.zeng_msgbox_layer,
+.zeng_msgbox_layer .gtl_ico_succ,
+.zeng_msgbox_layer .gtl_ico_fail,
+.zeng_msgbox_layer .gtl_ico_hits,
+.zeng_msgbox_layer .gtl_ico_clear,
+.zeng_msgbox_layer .gtl_end{display:inline-block;height:54px;line-height:54px;font-weight:bold;font-size:14px;color:#606060;background-image:url(../images/gb_tip_layer.png);_background-image:url(../images/gb_tip_layer_ie6.png);background-repeat:no-repeat}
+.zeng_msgbox_layer_wrap{width:100%;position:fixed;_position:absolute;top:46%;left:0;text-align:center;z-index:65533}
+.zeng_msgbox_layer{background-position:0 -161px;background-repeat:repeat-x;padding:0 18px 0 9px;margin:0 auto;position:relative}
+.zeng_msgbox_layer .gtl_ico_succ{background-position:-6px 0;left:-45px;top:0;width:45px;position:absolute}
+.zeng_msgbox_layer .gtl_end{background-position:0 0;position:absolute;right:-6px;top:0;width:6px}
+.zeng_msgbox_layer .gtl_ico_fail{background-position:-6px -108px;position:absolute;left:-45px;top:0;width:45px}
+.zeng_msgbox_layer .gtl_ico_hits{background-position:-6px -54px;position:absolute;left:-45px;top:0;width:45px}
+.zeng_msgbox_layer .gtl_ico_clear{background-position:-6px 0;left:-5px;width:5px;position:absolute;top:0}
+.zeng_msgbox_layer .gtl_ico_loading{width:16px;height:16px;border:0;background-image:url(gb_tip_loading.gif);float:left;margin:19px 10px 0 5px}
+
+.hr-checkbox1 label{background:url(HRcheckbox1.png) no-repeat}
+.hr-radio1 label{background:url(HRradio1.png) no-repeat}
+.hr-checkbox1 input,.hr-radio1 input{position:relative;left:-9999px}
+.hr-checkbox1 label,.hr-radio1 label{display:inline-block;padding-left:20px;height:18px;cursor:pointer}
+.hr-checkbox1 label,.hr-radio1 label{background-position:-0px -0px}
+.hr-checkbox1 label.hover,.hr-radio1 label.hover{background-position:-0px -18px}
+.hr-checkbox1 label.checked,.hr-radio1 label.checked{background-position:-0px -36px}
+.hr-checkbox1 label.checkedHover,.hr-radio1 label.checkedHover{background-position:-0px -54px}
+
+.hr-checkbox2 label{background:url(HRcheckbox2.png) no-repeat}
+.hr-radio2 label{background:url(HRradio2.png) no-repeat}
+.hr-checkbox2 input,.hr-radio2 input{position:relative;left:-9999px}
+.hr-checkbox2 label,.hr-radio2 label{display:inline-block;padding-left:20px;height:18px;cursor:pointer}
+.hr-checkbox2 label,.hr-radio2 label{background-position:-0px -0px}
+.hr-checkbox2 label.hover,.hr-radio2 label.hover{background-position:-0px -18px}
+.hr-checkbox2 label.checked,.hr-radio2 label.checked{background-position:-0px -36px}
+.hr-checkbox2 label.checkedHover,.hr-radio2 label.checkedHover{background-position:-0px -54px}
+
+.hr-checkbox3 label{background:url(HRcheckbox3.png) no-repeat}
+.hr-radio3 label{background:url(HRradio3.png) no-repeat}
+.hr-checkbox3 input,.hr-radio3 input{position:relative;left:-9999px}
+.hr-checkbox3 label,.hr-radio3 label{display:inline-block;padding-left:20px;height:18px;cursor:pointer}
+.hr-checkbox3 label,.hr-radio3 label{background-position:-0px -0px}
+.hr-checkbox3 label.hover,.hr-radio3 label.hover{background-position:-0px -18px}
+.hr-checkbox3 label.checked,.hr-radio3 label.checked{background-position:-0px -36px}
+.hr-checkbox3 label.checkedHover,.hr-radio3 label.checkedHover{background-position:-0px -54px}
+
+.hr-checkbox4 label{background:url(HRcheckbox4.png) no-repeat}
+.hr-radio4 label{background:url(HRradio4.png) no-repeat}
+.hr-checkbox4 input,.hr-radio4 input{position:relative;left:-9999px}
+.hr-checkbox4 label,.hr-radio4 label{display:inline-block;padding-left:20px;height:18px;cursor:pointer}
+.hr-checkbox4 label,.hr-radio4 label{background-position:-0px -0px}
+.hr-checkbox4 label.hover,.hr-radio4 label.hover{background-position:-0px -18px}
+.hr-checkbox4 label.checked,.hr-radio4 label.checked{background-position:-0px -36px}
+.hr-checkbox4 label.checkedHover,.hr-radio4 label.checkedHover{background-position:-0px -54px}
+
+.hr-checkbox5 label{background:url(HRcheckbox5.png) no-repeat}
+.hr-radio5 label{background:url(HRradio5.png) no-repeat}
+.hr-checkbox5 input,.hr-radio5 input{position:relative;left:-9999px}
+.hr-checkbox5 label,.hr-radio5 label{display:inline-block;padding-left:20px;height:18px;cursor:pointer}
+.hr-checkbox5 label,.hr-radio5 label{background-position:-0px -0px}
+.hr-checkbox5 label.hover,.hr-radio5 label.hover{background-position:-0px -18px}
+.hr-checkbox5 label.checked,.hr-radio5 label.checked{background-position:-0px -36px}
+.hr-checkbox5 label.checkedHover,.hr-radio5 label.checkedHover{background-position:-0px -54px}
+
+.hr-checkbox6 label{background:url(HRcheckbox6.png) no-repeat}
+.hr-radio6 label{background:url(HRradio6.png) no-repeat}
+.hr-checkbox6 input,.hr-radio6 input{position:relative;left:-9999px}
+.hr-checkbox6 label,.hr-radio6 label{display:inline-block;padding-left:20px;height:18px;cursor:pointer}
+.hr-checkbox6 label,.hr-radio6 label{background-position:-0px -0px}
+.hr-checkbox6 label.hover,.hr-radio6 label.hover{background-position:-0px -18px}
+.hr-checkbox6 label.checked,.hr-radio6 label.checked{background-position:-0px -36px}
+.hr-checkbox6 label.checkedHover,.hr-radio6 label.checkedHover{background-position:-0px -54px}
+
+.hr-checkbox7 label{background:url(HRcheckbox7.png) no-repeat}
+.hr-radio7 label{background:url(HRradio7.png) no-repeat}
+.hr-checkbox7 input,.hr-radio7 input{position:relative;left:-9999px}
+.hr-checkbox7 label,.hr-radio7 label{display:inline-block;padding-left:20px;height:18px;cursor:pointer}
+.hr-checkbox7 label,.hr-radio7 label{background-position:-0px -0px}
+.hr-checkbox7 label.hover,.hr-radio7 label.hover{background-position:-0px -18px}
+.hr-checkbox7 label.checked,.hr-radio7 label.checked{background-position:-0px -36px}
+.hr-checkbox7 label.checkedHover,.hr-radio7 label.checkedHover{background-position:-0px -54px}
+
+.hr-checkbox8 label{background:url(HRcheckbox8.png) no-repeat}
+.hr-radio8 label{background:url(HRradio8.png) no-repeat}
+.hr-checkbox8 input,.hr-radio8 input{position:relative;left:-9999px}
+.hr-checkbox8 label,.hr-radio8 label{display:inline-block;padding-left:20px;height:18px;cursor:pointer}
+.hr-checkbox8 label,.hr-radio8 label{background-position:-0px -0px}
+.hr-checkbox8 label.hover,.hr-radio8 label.hover{background-position:-0px -18px}
+.hr-checkbox8 label.checked,.hr-radio8 label.checked{background-position:-0px -36px}
+.hr-checkbox8 label.checkedHover,.hr-radio8 label.checkedHover{background-position:-0px -54px}
+
+.hr-checkbox9 label{background:url(HRcheckbox9.png) no-repeat}
+.hr-radio9 label{background:url(HRradio9.png) no-repeat}
+.hr-checkbox9 input,.hr-radio9 input{position:relative;left:-9999px}
+.hr-checkbox9 label,.hr-radio9 label{display:inline-block;padding-left:20px;height:18px;cursor:pointer}
+.hr-checkbox9 label,.hr-radio9 label{background-position:-0px -0px}
+.hr-checkbox9 label.hover,.hr-radio9 label.hover{background-position:-0px -18px}
+.hr-checkbox9 label.checked,.hr-radio9 label.checked{background-position:-0px -36px}
+.hr-checkbox9 label.checkedHover,.hr-radio9 label.checkedHover{background-position:-0px -54px}
+
+.hr-checkbox10 label{background:url(HRcheckbox10.png) no-repeat}
+.hr-radio10 label{background:url(HRradio10.png) no-repeat}
+.hr-checkbox10 input,.hr-radio10 input{position:relative;left:-9999px}
+.hr-checkbox10 label,.hr-radio10 label{display:inline-block;padding-left:20px;height:18px;cursor:pointer}
+.hr-checkbox10 label,.hr-radio10 label{background-position:-0px -0px}
+.hr-checkbox10 label.hover,.hr-radio10 label.hover{background-position:-0px -18px}
+.hr-checkbox10 label.checked,.hr-radio10 label.checked{background-position:-0px -36px}
+.hr-checkbox10 label.checkedHover,.hr-radio10 label.checkedHover{background-position:-0px -54px}
+
+.hr-glxs{position:relative;z-index:9999}
+.hr-glxs-select-hidden{visibility:hidden}
+
+div.hr-xllb1-select{display:block;width:140px;height:24px;background:transparent url(HRxllb1.png) no-repeat 0 0;padding:0 10px;line-height:24px;cursor:pointer}
+div.hr-xllb1-select-hover{background:transparent url(HRxllb1.png) no-repeat 0 -24px}
+div.hr-xllb1-select-open{background:transparent url(HRxllb1.png) no-repeat 0 -48px}
+ul.hr-xllb1-options{position:absolute;list-style:none;width:160px;margin:0;z-index:999;display:none}
+ul.hr-xllb1-options li{background:transparent url(HRxllb1.png) no-repeat;display:block;padding:0 10px;width:140px;height:24px;line-height:24px;text-decoration:none;cursor:pointer;float:left}
+ul.hr-xllb1-options li{background-position:0 -120px}
+div.hr-xllb1-top{font-size:0;background:transparent url(HRxllb1.png) no-repeat;width:160px;height:5px;background-position:0 -149px;float:left}
+div.hr-xllb1-bottom{font-size:0;background:transparent url(HRxllb1.png) no-repeat;width:160px;height:5px;background-position:0 -144px;float:left}
+ul.hr-xllb1-options li.hr-xllb1-open-selected{background-position:0 -96px}
+ul.hr-xllb1-options li.hr-xllb1-open-hover{background-position:0 -72px}
+ul.hr-xllb1-options li.hr-xllb1-open-optgroup{background-position:0 -120px;font-style:italic;font-weight:bold}
+
+div.hr-xllb2-select{display:block;width:140px;height:24px;background:transparent url(HRxllb2.png) no-repeat 0 0;padding:0 10px;line-height:24px;cursor:pointer}
+div.hr-xllb2-select-hover{background:transparent url(HRxllb2.png) no-repeat 0 -24px}
+div.hr-xllb2-select-open{background:transparent url(HRxllb2.png) no-repeat 0 -48px}
+ul.hr-xllb2-options{position:absolute;list-style:none;width:160px;margin:0;z-index:999;display:none}
+ul.hr-xllb2-options li{background:transparent url(HRxllb2.png) no-repeat;display:block;padding:0 10px;width:140px;height:24px;line-height:24px;text-decoration:none;cursor:pointer;float:left}
+ul.hr-xllb2-options li{background-position:0 -120px}
+div.hr-xllb2-top{font-size:0;background:transparent url(HRxllb2.png) no-repeat;width:160px;height:5px;background-position:0 -149px;float:left}
+div.hr-xllb2-bottom{font-size:0;background:transparent url(HRxllb2.png) no-repeat;width:160px;height:5px;background-position:0 -144px;float:left}
+ul.hr-xllb2-options li.hr-xllb2-open-selected{background-position:0 -96px}
+ul.hr-xllb2-options li.hr-xllb2-open-hover{background-position:0 -72px}
+ul.hr-xllb2-options li.hr-xllb2-open-optgroup{background-position:0 -120px;font-style:italic;font-weight:bold}
+
+.hr-share-select-hidden{visibility:hidden}
+.hr-share-more-panel{width:270px;height:300px;background:#F2F2F2;border:3px solid #aaa;display:none}
+.hr-share-more-panel-title{width:260px;height:24px;line-height:24px;border-bottom:1px solid #aaa;padding:0 5px}
+.hr-share-more-panel-title a{font-size:12px;width:20px;text-align:center;text-decoration:none;float:right;color:#666}
+.hr-share-more-panel-title a:hover{color:#000}
+.hr-share-more-panel-title span{font-size:12px;float:left;font-weight:bold}
+.hr-share-more-panel-list{width:270px;height:244px;border-bottom:1px solid #aaa;background:#fff;overflow-y:auto;padding-bottom:10px}
+.hr-share-more-panel-list a{display:block;font-size:12px;width:70px;margin-left:10px;margin-top:10px;padding:0 20px;height:16px;line-height:16px;background:url(HRico_16x16.png) no-repeat;float:left;cursor:pointer}
+.hr-share-more-panel-list a:hover{color:#999}
+a.hr-share-more-panel-tsina{background-position:0 -16px}
+a.hr-share-more-panel-tqq{background-position:0 -32px}
+a.hr-share-more-panel-qzone{background-position:0 -48px}
+a.hr-share-more-panel-renren{background-position:0 -64px}
+a.hr-share-more-panel-baidu{background-position:0 -80px}
+a.hr-share-more-panel-115{background-position:0 -96px}
+a.hr-share-more-panel-tsohu{background-position:0 -112px}
+a.hr-share-more-panel-taobao{background-position:0 -128px}
+a.hr-share-more-panel-xiaoyou{background-position:0 -144px}
+a.hr-share-more-panel-hi{background-position:0 -160px}
+a.hr-share-more-panel-fanfou{background-position:0 -176px}
+a.hr-share-more-panel-sohubai{background-position:0 -192px}
+a.hr-share-more-panel-feixin{background-position:0 -208px}
+a.hr-share-more-panel-youshi{background-position:0 -224px}
+a.hr-share-more-panel-tianya{background-position:0 -240px}
+a.hr-share-more-panel-msn{background-position:0 -256px}
+a.hr-share-more-panel-douban{background-position:0 -272px}
+a.hr-share-more-panel-twangyi{background-position:0 -288px}
+a.hr-share-more-panel-mop{background-position:0 -304px}
+.hr-share-more-panel-copyright{width:260px;height:20px;line-height:20px;padding:0 5px}
+.hr-share-more-panel-copyright a{margin-top:2px;background:url(shareLogo.png) no-repeat;padding-left:20px;height:16px;line-height:16px;font-size:12px;text-decoration:none;float:right;color:#666}
+.hr-share-16 a{display:block;padding:0 5px 0 20px;height:16px;line-height:16px;background:url(HRico_16x16.png) no-repeat;float:left;cursor:pointer}
+.hr-share-16 a:hover{opacity:0.8}
+.hr-share-16 a.hr-share-more{background-position:0 0}
+.hr-share-16 a.hr-share-tsina{background-position:0 -16px}
+.hr-share-16 a.hr-share-tqq{background-position:0 -32px}
+.hr-share-16 a.hr-share-qzone{background-position:0 -48px}
+.hr-share-16 a.hr-share-renren{background-position:0 -64px}
+.hr-share-16 a.hr-share-baidu{background-position:0 -80px}
+.hr-share-16 a.hr-share-115{background-position:0 -96px}
+.hr-share-16 a.hr-share-tsohu{background-position:0 -112px}
+.hr-share-16 a.hr-share-taobao{background-position:0 -128px}
+.hr-share-16 a.hr-share-xiaoyou{background-position:0 -144px}
+.hr-share-16 a.hr-share-hi{background-position:0 -160px}
+.hr-share-16 a.hr-share-fanfou{background-position:0 -176px}
+.hr-share-16 a.hr-share-sohubai{background-position:0 -192px}
+.hr-share-16 a.hr-share-feixin{background-position:0 -208px}
+.hr-share-16 a.hr-share-youshi{background-position:0 -224px}
+.hr-share-16 a.hr-share-tianya{background-position:0 -240px}
+.hr-share-16 a.hr-share-msn{background-position:0 -256px}
+.hr-share-16 a.hr-share-douban{background-position:0 -272px}
+.hr-share-16 a.hr-share-twangyi{background-position:0 -288px}
+.hr-share-16 a.hr-share-mop{background-position:0 -304px}
+.hr-share-32 a{display:block;padding:0 5px 0 40px;height:32px;line-height:32px;background:url(HRico_32x32.png) no-repeat;float:left;cursor:pointer}
+.hr-share-32 a:hover{opacity:0.8}
+.hr-share-32 a.hr-share-more{background-position:0 0}
+.hr-share-32 a.hr-share-tsina{background-position:0 -32px}
+.hr-share-32 a.hr-share-tqq{background-position:0 -64px}
+.hr-share-32 a.hr-share-qzone{background-position:0 -96px}
+.hr-share-32 a.hr-share-renren{background-position:0 -128px}
+.hr-share-32 a.hr-share-baidu{background-position:0 -160px}
+.hr-share-32 a.hr-share-115{background-position:0 -192px}
+.hr-share-32 a.hr-share-tsohu{background-position:0 -224px}
+.hr-share-32 a.hr-share-taobao{background-position:0 -256px}
+.hr-share-32 a.hr-share-xiaoyou{background-position:0 -288px}
+.hr-share-32 a.hr-share-hi{background-position:0 -320px}
+.hr-share-32 a.hr-share-fanfou{background-position:0 -352px}
+.hr-share-32 a.hr-share-sohubai{background-position:0 -384px}
+.hr-share-32 a.hr-share-feixin{background-position:0 -416px}
+.hr-share-32 a.hr-share-youshi{background-position:0 -448px}
+.hr-share-32 a.hr-share-tianya{background-position:0 -480px}
+.hr-share-32 a.hr-share-msn{background-position:0 -512px}
+.hr-share-32 a.hr-share-douban{background-position:0 -544px}
+.hr-share-32 a.hr-share-twangyi{background-position:0 -576px}
+.hr-share-32 a.hr-share-mop{background-position:0 -608px}

@@ -1,0 +1,50 @@
+body { background:#EEE; }
+.box { margin-bottom:20px; }
+.clear { clear:both; }
+.float_left { float:left; }
+.float_right { float:right; }
+.left { text-align:left; }
+.right { text-align:right; }
+.url { background:url(images/website.png) no-repeat right; padding-right:20px; }
+.tips { color:#CCC; }
+.v_top { vertical-align:top; }
+.qq { background:url(images/qq.png) no-repeat right; padding-right:20px; }
+.msn { background:url(images/msn.png) no-repeat right; padding-right:20px; }
+.email { background:url(images/email.png) no-repeat right; padding-right:20px; }
+.tips { color:#666; }
+.long_txt { width:98%; }
+.must_be { color:red !important; }
+textarea { line-height:1.5em; }
+
+image { border:none; }
+p { line-height:1.5em; }
+
+a { color:#3366CC; text-decoration:underline; }
+a:hover { color:#FF3300; }
+
+.page { width:700px; margin:10px auto; background:#FFF; padding:10px 20px; border:1px solid #CCC; border-radius:5px; }
+
+    .header { padding-top:10px; border-bottom:1px solid #CCC; }
+        .header h1 { font-size:50px; }
+        .header a { color:#333; text-decoration:none; }
+
+    .main {  }
+        .main_content { }
+
+			.box h2 { padding-bottom:5px; margin-bottom:10px; font-weight:400; color:green; font-size:28px;}
+
+            .todos {}
+                .todos ul li { list-style-type:none; margin-bottom:10px; padding-bottom:10px; border-bottom:1px dotted #CCC; }
+                .todos ul li.finished { color:#666; }
+                .todos ul li a { color:#666; }
+                .todos ul li del { padding-left:15px; background:url(images/ok.gif) no-repeat left center; }
+
+            .post {  }
+                .post p { margin-bottom:10px; }
+                .post .submit { line-height:normal; -padding:0; }
+
+
+
+    .foot { border-top:1px solid #CCC; color:#666; padding-top:10px; font-size:11px; }
+        .foot img { vertical-align:top; }
+

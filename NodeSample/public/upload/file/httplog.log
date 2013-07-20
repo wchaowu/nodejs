@@ -1,0 +1,1484 @@
+2013-07-16 18:55:34,err,base = [object Object] 	 modelName = articleType 	 model = function model(name) {
+  return this.db.model(name);
+} 	 db = [object Object] 	 schema = [object Object] 	 options = undefined 	 collection = [object Object] 	 setMaxListeners = function (n) {
+  if (typeof n !== 'number' || n < 0)
+    throw TypeError('n must be a positive number');
+  this._maxListeners = n;
+} 	 emit = function (type) {
+  var er, handler, len, args, i, listeners;
+
+  if (!this._events)
+    this._events = {};
+
+  // If there is no 'error' event listener then throw.
+  if (type === 'error') {
+    if (!this._events.error ||
+        (typeof this._events.error === 'object' &&
+         !this._events.error.length)) {
+      er = arguments[1];
+      if (this.domain) {
+        if (!er) er = new TypeError('Uncaught, unspecified "error" event.');
+        er.domainEmitter = this;
+        er.domain = this.domain;
+        er.domainThrown = false;
+        this.domain.emit('error', er);
+      } else if (er instanceof Error) {
+        throw er; // Unhandled 'error' event
+      } else {
+        throw TypeError('Uncaught, unspecified "error" event.');
+      }
+      return false;
+    }
+  }
+
+  handler = this._events[type];
+
+  if (typeof handler === 'undefined')
+    return false;
+
+  if (this.domain && this !== process)
+    this.domain.enter();
+
+  if (typeof handler === 'function') {
+    switch (arguments.length) {
+      // fast cases
+      case 1:
+        handler.call(this);
+        break;
+      case 2:
+        handler.call(this, arguments[1]);
+        break;
+      case 3:
+        handler.call(this, arguments[1], arguments[2]);
+        break;
+      // slower
+      default:
+        len = arguments.length;
+        args = new Array(len - 1);
+        for (i = 1; i < len; i++)
+          args[i - 1] = arguments[i];
+        handler.apply(this, args);
+    }
+  } else if (typeof handler === 'object') {
+    len = arguments.length;
+    args = new Array(len - 1);
+    for (i = 1; i < len; i++)
+      args[i - 1] = arguments[i];
+
+    listeners = handler.slice();
+    len = listeners.length;
+    for (i = 0; i < len; i++)
+      listeners[i].apply(this, args);
+  }
+
+  if (this.domain && this !== process)
+    this.domain.exit();
+
+  return true;
+} 	 addListener = function (type, listener) {
+  var m;
+
+  if (typeof listener !== 'function')
+    throw TypeError('listener must be a function');
+
+  if (!this._events)
+    this._events = {};
+
+  // To avoid recursion in the case that type === "newListener"! Before
+  // adding it to the listeners, first emit "newListener".
+  if (this._events.newListener)
+    this.emit('newListener', type, typeof listener.listener === 'function' ?
+              listener.listener : listener);
+
+  if (!this._events[type])
+    // Optimize the case of one listener. Don't need the extra array object.
+    this._events[type] = listener;
+  else if (typeof this._events[type] === 'object')
+    // If we've already got an array, just append.
+    this._events[type].push(listener);
+  else
+    // Adding the second element, need to change to array.
+    this._events[type] = [this._events[type], listener];
+
+  // Check for listener leak
+  if (typeof this._events[type] === 'object' && !this._events[type].warned) {
+    m = this._maxListeners;
+    if (m && m > 0 && this._events[type].length > m) {
+      this._events[type].warned = true;
+      console.error('(node) warning: possible EventEmitter memory ' +
+                    'leak detected. %d listeners added. ' +
+                    'Use emitter.setMaxListeners() to increase limit.',
+                    this._events[type].length);
+      console.trace();
+    }
+  }
+
+  return this;
+} 	 on = function (type, listener) {
+  var m;
+
+  if (typeof listener !== 'function')
+    throw TypeError('listener must be a function');
+
+  if (!this._events)
+    this._events = {};
+
+  // To avoid recursion in the case that type === "newListener"! Before
+  // adding it to the listeners, first emit "newListener".
+  if (this._events.newListener)
+    this.emit('newListener', type, typeof listener.listener === 'function' ?
+              listener.listener : listener);
+
+  if (!this._events[type])
+    // Optimize the case of one listener. Don't need the extra array object.
+    this._events[type] = listener;
+  else if (typeof this._events[type] === 'object')
+    // If we've already got an array, just append.
+    this._events[type].push(listener);
+  else
+    // Adding the second element, need to change to array.
+    this._events[type] = [this._events[type], listener];
+
+  // Check for listener leak
+  if (typeof this._events[type] === 'object' && !this._events[type].warned) {
+    m = this._maxListeners;
+    if (m && m > 0 && this._events[type].length > m) {
+      this._events[type].warned = true;
+      console.error('(node) warning: possible EventEmitter memory ' +
+                    'leak detected. %d listeners added. ' +
+                    'Use emitter.setMaxListeners() to increase limit.',
+                    this._events[type].length);
+      console.trace();
+    }
+  }
+
+  return this;
+} 	 once = function (type, listener) {
+  if (typeof listener !== 'function')
+    throw TypeError('listener must be a function');
+
+  function g() {
+    this.removeListener(type, g);
+    listener.apply(this, arguments);
+  }
+
+  g.listener = listener;
+  this.on(type, g);
+
+  return this;
+} 	 removeListener = function (type, listener) {
+  var list, position, length, i;
+
+  if (typeof listener !== 'function')
+    throw TypeError('listener must be a function');
+
+  if (!this._events || !this._events[type])
+    return this;
+
+  list = this._events[type];
+  length = list.length;
+  position = -1;
+
+  if (list === listener ||
+      (typeof list.listener === 'function' && list.listener === listener)) {
+    this._events[type] = undefined;
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+
+  } else if (typeof list === 'object') {
+    for (i = length; i-- > 0;) {
+      if (list[i] === listener ||
+          (list[i].listener && list[i].listener === listener)) {
+        position = i;
+        break;
+      }
+    }
+
+    if (position < 0)
+      return this;
+
+    if (list.length === 1) {
+      list.length = 0;
+      this._events[type] = undefined;
+    } else {
+      list.splice(position, 1);
+    }
+
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+  }
+
+  return this;
+} 	 removeAllListeners = function (type) {
+  var key, listeners;
+
+  if (!this._events)
+    return this;
+
+  // not listening for removeListener, no need to emit
+  if (!this._events.removeListener) {
+    if (arguments.length === 0)
+      this._events = {};
+    else if (this._events[type])
+      this._events[type] = undefined;
+    return this;
+  }
+
+  // emit removeListener for all listeners on all events
+  if (arguments.length === 0) {
+    for (key in this._events) {
+      if (key === 'removeListener') continue;
+      this.removeAllListeners(key);
+    }
+    this.removeAllListeners('removeListener');
+    this._events = {};
+    return this;
+  }
+
+  listeners = this._events[type];
+
+  if (typeof listeners === 'function') {
+    this.removeListener(type, listeners);
+  } else {
+    // LIFO order
+    while (listeners.length)
+      this.removeListener(type, listeners[listeners.length - 1]);
+  }
+  this._events[type] = undefined;
+
+  return this;
+} 	 listeners = function (type) {
+  var ret;
+  if (!this._events || !this._events[type])
+    ret = [];
+  else if (typeof this._events[type] === 'function')
+    ret = [this._events[type]];
+  else
+    ret = this._events[type].slice();
+  return ret;
+} 	 init = function init() {
+  if (this.schema.options.autoIndex) {
+    this.ensureIndexes();
+  }
+
+  this.schema.emit('init', this);
+} 	 ensureIndexes = function ensureIndexes(cb) {
+  var indexes = this.schema.indexes();
+  if (!indexes.length) {
+    return cb && process.nextTick(cb);
+  }
+
+  // Indexes are created one-by-one to support how MongoDB < 2.4 deals
+  // with background indexes.
+
+  var self = this
+    , safe = self.schema.options.safe
+
+  function done (err) {
+    self.emit('index', err);
+    cb && cb(err);
+  }
+
+  function create () {
+    var index = indexes.shift();
+    if (!index) return done();
+
+    var options = index[1];
+    options.safe = safe;
+    self.collection.ensureIndex(index[0], options, tick(function (err) {
+      if (err) return done(err);
+      create();
+    }));
+  }
+
+  create();
+} 	 remove = function remove(conditions, callback) {
+  if ('function' === typeof conditions) {
+    callback = conditions;
+    conditions = {};
+  }
+
+  var query = new Query(conditions).bind(this, 'remove');
+
+  if ('undefined' === typeof callback)
+    return query;
+
+  this._applyNamedScope(query);
+  return query.remove(callback);
+} 	 find = function find(conditions, fields, options, callback) {
+  if ('function' == typeof conditions) {
+    callback = conditions;
+    conditions = {};
+    fields = null;
+    options = null;
+  } else if ('function' == typeof fields) {
+    callback = fields;
+    fields = null;
+    options = null;
+  } else if ('function' == typeof options) {
+    callback = options;
+    options = null;
+  }
+
+  var query = new Query(conditions, options);
+  query.bind(this, 'find');
+  query.select(fields);
+
+  if ('undefined' === typeof callback)
+    return query;
+
+  this._applyNamedScope(query);
+  return query.find(callback);
+} 	 _applyNamedScope = function _applyNamedScope(query) {
+  var cQuery = this._cumulativeQuery;
+
+  if (cQuery) {
+    merge(query._conditions, cQuery._conditions);
+    if (query._fields && cQuery._fields)
+      merge(query._fields, cQuery._fields);
+    if (query.options && cQuery.options)
+      merge(query.options, cQuery.options);
+    delete this._cumulativeQuery;
+  }
+
+  return query;
+} 	 findById = function findById(id, fields, options, callback) {
+  return this.findOne({ _id: id }, fields, options, callback);
+} 	 findOne = function findOne(conditions, fields, options, callback) {
+  if ('function' == typeof options) {
+    callback = options;
+    options = null;
+  } else if ('function' == typeof fields) {
+    callback = fields;
+    fields = null;
+    options = null;
+  } else if ('function' == typeof conditions) {
+    callback = conditions;
+    conditions = {};
+    fields = null;
+    options = null;
+  }
+
+  var query = new Query(conditions, options).select(fields).bind(this, 'findOne');
+
+  if ('undefined' == typeof callback)
+    return query;
+
+  this._applyNamedScope(query);
+  return query.findOne(callback);
+} 	 count = function count(conditions, callback) {
+  if ('function' === typeof conditions)
+    callback = conditions, conditions = {};
+
+  var query = new Query(conditions).bind(this, 'count');
+  if ('undefined' == typeof callback)
+    return query;
+
+  this._applyNamedScope(query);
+  return query.count(callback);
+} 	 distinct = function distinct(field, conditions, callback) {
+  var query = new Query(conditions).bind(this, 'distinct');
+  if ('undefined' == typeof callback) {
+    query._distinctArg = field;
+    return query;
+  }
+
+  this._applyNamedScope(query);
+  return query.distinct(field, callback);
+} 	 where = function where(path, val) {
+  var q = new Query().bind(this, 'find');
+  return q.where.apply(q, arguments);
+} 	 $where = function $where() {
+  var q = new Query().bind(this, 'find');
+  return q.$where.apply(q, arguments);
+} 	 findOneAndUpdate = function (conditions, update, options, callback) {
+  if ('function' == typeof options) {
+    callback = options;
+    options = null;
+  }
+  else if (1 === arguments.length) {
+    if ('function' == typeof conditions) {
+      var msg = 'Model.findOneAndUpdate(): First argument must not be a function.\n\n'
+              + '  ' + this.modelName + '.findOneAndUpdate(conditions, update, options, callback)\n'
+              + '  ' + this.modelName + '.findOneAndUpdate(conditions, update, options)\n'
+              + '  ' + this.modelName + '.findOneAndUpdate(conditions, update)\n'
+              + '  ' + this.modelName + '.findOneAndUpdate(update)\n'
+              + '  ' + this.modelName + '.findOneAndUpdate()\n';
+      throw new TypeError(msg)
+    }
+    update = conditions;
+    conditions = undefined;
+  }
+
+  var fields;
+  if (options && options.fields) {
+    fields = options.fields;
+    options.fields = undefined;
+  }
+
+  var query = new Query(conditions);
+  query.setOptions(options);
+  query.select(fields);
+  query.bind(this, 'findOneAndUpdate', update);
+
+  if ('undefined' == typeof callback)
+    return query;
+
+  this._applyNamedScope(query);
+  return query.findOneAndUpdate(callback);
+} 	 findByIdAndUpdate = function (id, update, options, callback) {
+  var args;
+
+  if (1 === arguments.length) {
+    if ('function' == typeof id) {
+      var msg = 'Model.findByIdAndUpdate(): First argument must not be a function.\n\n'
+                + '  ' + this.modelName + '.findByIdAndUpdate(id, callback)\n'
+                + '  ' + this.modelName + '.findByIdAndUpdate(id)\n'
+                + '  ' + this.modelName + '.findByIdAndUpdate()\n';
+      throw new TypeError(msg)
+    }
+    return this.findOneAndUpdate({_id: id }, undefined);
+  }
+
+  args = utils.args(arguments, 1);
+  args.unshift({ _id: id });
+  return this.findOneAndUpdate.apply(this, args);
+} 	 findOneAndRemove = function (conditions, options, callback) {
+  if (1 === arguments.length && 'function' == typeof conditions) {
+    var msg = 'Model.findOneAndRemove(): First argument must not be a function.\n\n'
+              + '  ' + this.modelName + '.findOneAndRemove(conditions, callback)\n'
+              + '  ' + this.modelName + '.findOneAndRemove(conditions)\n'
+              + '  ' + this.modelName + '.findOneAndRemove()\n';
+    throw new TypeError(msg)
+  }
+
+  if ('function' == typeof options) {
+    callback = options;
+    options = undefined;
+  }
+
+  var fields;
+  if (options) {
+    fields = options.select;
+    options.select = undefined;
+  }
+
+  var query = new Query(conditions);
+  query.setOptions(options);
+  query.select(fields);
+  query.bind(this, 'findOneAndRemove');
+
+  if ('undefined' == typeof callback)
+    return query;
+
+  this._applyNamedScope(query);
+  return query.findOneAndRemove(callback);
+} 	 findByIdAndRemove = function (id, options, callback) {
+  if (1 === arguments.length && 'function' == typeof id) {
+    var msg = 'Model.findByIdAndRemove(): First argument must not be a function.\n\n'
+              + '  ' + this.modelName + '.findByIdAndRemove(id, callback)\n'
+              + '  ' + this.modelName + '.findByIdAndRemove(id)\n'
+              + '  ' + this.modelName + '.findByIdAndRemove()\n';
+    throw new TypeError(msg)
+  }
+
+  return this.findOneAndRemove({ _id: id }, options, callback);
+} 	 create = function create(doc, fn) {
+  if (1 === arguments.length) {
+    return 'function' === typeof doc && doc(null);
+  }
+
+  var self = this
+    , docs = [null]
+    , promise
+    , count
+    , args
+
+  if (Array.isArray(doc)) {
+    args = doc;
+  } else {
+    args = utils.args(arguments, 0, arguments.length - 1);
+    fn = arguments[arguments.length - 1];
+  }
+
+  if (0 === args.length) return fn(null);
+
+  promise = new Promise(fn);
+  count = args.length;
+
+  args.forEach(function (arg, i) {
+    var doc = new self(arg);
+    docs[i+1] = doc;
+    doc.save(function (err) {
+      if (err) return promise.error(err);
+      --count || fn.apply(null, docs);
+    });
+  });
+} 	 update = function update(conditions, doc, options, callback) {
+  if (arguments.length < 4) {
+    if ('function' === typeof options) {
+      // Scenario: update(conditions, doc, callback)
+      callback = options;
+      options = null;
+    } else if ('function' === typeof doc) {
+      // Scenario: update(doc, callback);
+      callback = doc;
+      doc = conditions;
+      conditions = {};
+      options = null;
+    }
+  }
+
+  var query = new Query(conditions, options).bind(this, 'update', doc);
+
+  if ('undefined' == typeof callback)
+    return query;
+
+  this._applyNamedScope(query);
+  return query.update(doc, callback);
+} 	 mapReduce = function mapReduce(o, callback) {
+  if ('function' != typeof callback) throw new Error('missing callback');
+
+  var self = this;
+
+  if (!Model.mapReduce.schema) {
+    var opts = { noId: true, noVirtualId: true, strict: false }
+    Model.mapReduce.schema = new Schema({}, opts);
+  }
+
+  if (!o.out) o.out = { inline: 1 };
+
+  o.map = String(o.map);
+  o.reduce = String(o.reduce);
+
+  if (o.query) {
+    var q = new Query(o.query);
+    q.cast(this);
+    o.query = q._conditions;
+    q = undefined;
+  }
+
+  this.collection.mapReduce(null, null, o, function (err, ret, stats) {
+    if (err) return callback(err);
+
+    if (ret.findOne && ret.mapReduce) {
+      // returned a collection, convert to Model
+      var model = Model.compile(
+          '_mapreduce_' + ret.collectionName
+        , Model.mapReduce.schema
+        , ret.collectionName
+        , self.db
+        , self.base);
+
+      model._mapreduce = true;
+
+      return callback(err, model, stats);
+    }
+
+    callback(err, ret, stats);
+  });
+} 	 aggregate = function aggregate() {
+  return this.collection.aggregate.apply(this.collection, arguments);
+} 	 populate = function (docs, paths, cb) {
+  assert.equal('function', typeof cb);
+
+  // always callback on nextTick for consistent async behavior
+  function callback () {
+    var args = utils.args(arguments);
+    process.nextTick(function () {
+      cb.apply(null, args);
+    });
+  }
+
+  // normalized paths
+  var paths = utils.populate(paths);
+  var pending = paths.length;
+
+  if (0 === pending) {
+    return callback(null, docs);
+  }
+
+  // each path has its own query options and must be executed separately
+  var i = pending;
+  var path;
+  while (i--) {
+    path = paths[i];
+    populate(this, docs, path, next);
+  }
+
+  function next (err) {
+    if (next.err) return;
+    if (err) return callback(next.err = err);
+    if (--pending) return;
+    callback(null, docs);
+  }
+} 	 _getSchema = function _getSchema(path) {
+  var schema = this.schema
+    , pathschema = schema.path(path);
+
+  if (pathschema)
+    return pathschema;
+
+  // look for arrays
+  return (function search (parts, schema) {
+    var p = parts.length + 1
+      , foundschema
+      , trypath
+
+    while (p--) {
+      trypath = parts.slice(0, p).join('.');
+      foundschema = schema.path(trypath);
+      if (foundschema) {
+        if (foundschema.caster) {
+
+          // array of Mixed?
+          if (foundschema.caster instanceof Types.Mixed) {
+            return foundschema.caster;
+          }
+
+          // Now that we found the array, we need to check if there
+          // are remaining document paths to look up for casting.
+          // Also we need to handle array.$.path since schema.path
+          // doesn't work for that.
+          if (p !== parts.length) {
+            if ('$' === parts[p]) {
+              // comments.$.comments.$.title
+              return search(parts.slice(p+1), foundschema.schema);
+            } else {
+              // this is the last path of the selector
+              return search(parts.slice(p), foundschema.schema);
+            }
+          }
+        }
+        return foundschema;
+      }
+    }
+  })(path.split('.'), schema)
+} 	 compile = function compile(name, schema, collectionName, connection, base) {
+  var versioningEnabled = false !== schema.options.versionKey;
+
+  if (versioningEnabled && !schema.paths[schema.options.versionKey]) {
+    // add versioning to top level documents only
+    var o = {};
+    o[schema.options.versionKey] = Number;
+    schema.add(o);
+  }
+
+  // generate new class
+  function model (doc, fields, skipId) {
+    if (!(this instanceof model))
+      return new model(doc, fields, skipId);
+    Model.call(this, doc, fields, skipId);
+  };
+
+  model.base = base;
+  model.modelName = name;
+  model.__proto__ = Model;
+  model.prototype.__proto__ = Model.prototype;
+  model.model = Model.prototype.model;
+  model.db = model.prototype.db = connection;
+
+  model.prototype.$__setSchema(schema);
+
+  var collectionOptions = {
+      bufferCommands: schema.options.bufferCommands
+    , capped: schema.options.capped
+  };
+
+  model.prototype.collection = connection.collection(
+      collectionName
+    , collectionOptions
+  );
+
+  // apply methods
+  for (var i in schema.methods)
+    model.prototype[i] = schema.methods[i];
+
+  // apply statics
+  for (var i in schema.statics)
+    model[i] = schema.statics[i];
+
+  // apply named scopes
+  if (schema.namedScopes) schema.namedScopes.compile(model);
+
+  model.schema = model.prototype.schema;
+  model.options = model.prototype.options;
+  model.collection = model.prototype.collection;
+
+  return model;
+} 	 __subclass = function subclass(conn, schema, collection) {
+  // subclass model using this connection and collection name
+  var model = this;
+
+  var Model = function Model (doc, fields, skipId) {
+    if (!(this instanceof Model)) {
+      return new Model(doc, fields, skipId);
+    }
+    model.call(this, doc, fields, skipId);
+  }
+
+  Model.__proto__ = model;
+  Model.prototype.__proto__ = model.prototype;
+  Model.db = Model.prototype.db = conn;
+
+  var s = schema && 'string' != typeof schema
+    ? schema
+    : model.prototype.schema;
+
+  if (!collection) {
+    collection = model.prototype.schema.get('collection')
+              || utils.toCollectionName(model.modelName);
+  }
+
+  var collectionOptions = {
+      bufferCommands: s ? s.options.bufferCommands : true
+    , capped: s && s.options.capped
+  };
+
+  Model.prototype.collection = conn.collection(collection, collectionOptions);
+  Model.collection = Model.prototype.collection;
+  Model.init();
+  return Model;
+} 	 
+2013-07-16 18:59:22,err,base = [object Object] 	 modelName = articleType 	 model = function model(name) {
+  return this.db.model(name);
+} 	 db = [object Object] 	 schema = [object Object] 	 options = undefined 	 collection = [object Object] 	 setMaxListeners = function (n) {
+  if (typeof n !== 'number' || n < 0)
+    throw TypeError('n must be a positive number');
+  this._maxListeners = n;
+} 	 emit = function (type) {
+  var er, handler, len, args, i, listeners;
+
+  if (!this._events)
+    this._events = {};
+
+  // If there is no 'error' event listener then throw.
+  if (type === 'error') {
+    if (!this._events.error ||
+        (typeof this._events.error === 'object' &&
+         !this._events.error.length)) {
+      er = arguments[1];
+      if (this.domain) {
+        if (!er) er = new TypeError('Uncaught, unspecified "error" event.');
+        er.domainEmitter = this;
+        er.domain = this.domain;
+        er.domainThrown = false;
+        this.domain.emit('error', er);
+      } else if (er instanceof Error) {
+        throw er; // Unhandled 'error' event
+      } else {
+        throw TypeError('Uncaught, unspecified "error" event.');
+      }
+      return false;
+    }
+  }
+
+  handler = this._events[type];
+
+  if (typeof handler === 'undefined')
+    return false;
+
+  if (this.domain && this !== process)
+    this.domain.enter();
+
+  if (typeof handler === 'function') {
+    switch (arguments.length) {
+      // fast cases
+      case 1:
+        handler.call(this);
+        break;
+      case 2:
+        handler.call(this, arguments[1]);
+        break;
+      case 3:
+        handler.call(this, arguments[1], arguments[2]);
+        break;
+      // slower
+      default:
+        len = arguments.length;
+        args = new Array(len - 1);
+        for (i = 1; i < len; i++)
+          args[i - 1] = arguments[i];
+        handler.apply(this, args);
+    }
+  } else if (typeof handler === 'object') {
+    len = arguments.length;
+    args = new Array(len - 1);
+    for (i = 1; i < len; i++)
+      args[i - 1] = arguments[i];
+
+    listeners = handler.slice();
+    len = listeners.length;
+    for (i = 0; i < len; i++)
+      listeners[i].apply(this, args);
+  }
+
+  if (this.domain && this !== process)
+    this.domain.exit();
+
+  return true;
+} 	 addListener = function (type, listener) {
+  var m;
+
+  if (typeof listener !== 'function')
+    throw TypeError('listener must be a function');
+
+  if (!this._events)
+    this._events = {};
+
+  // To avoid recursion in the case that type === "newListener"! Before
+  // adding it to the listeners, first emit "newListener".
+  if (this._events.newListener)
+    this.emit('newListener', type, typeof listener.listener === 'function' ?
+              listener.listener : listener);
+
+  if (!this._events[type])
+    // Optimize the case of one listener. Don't need the extra array object.
+    this._events[type] = listener;
+  else if (typeof this._events[type] === 'object')
+    // If we've already got an array, just append.
+    this._events[type].push(listener);
+  else
+    // Adding the second element, need to change to array.
+    this._events[type] = [this._events[type], listener];
+
+  // Check for listener leak
+  if (typeof this._events[type] === 'object' && !this._events[type].warned) {
+    m = this._maxListeners;
+    if (m && m > 0 && this._events[type].length > m) {
+      this._events[type].warned = true;
+      console.error('(node) warning: possible EventEmitter memory ' +
+                    'leak detected. %d listeners added. ' +
+                    'Use emitter.setMaxListeners() to increase limit.',
+                    this._events[type].length);
+      console.trace();
+    }
+  }
+
+  return this;
+} 	 on = function (type, listener) {
+  var m;
+
+  if (typeof listener !== 'function')
+    throw TypeError('listener must be a function');
+
+  if (!this._events)
+    this._events = {};
+
+  // To avoid recursion in the case that type === "newListener"! Before
+  // adding it to the listeners, first emit "newListener".
+  if (this._events.newListener)
+    this.emit('newListener', type, typeof listener.listener === 'function' ?
+              listener.listener : listener);
+
+  if (!this._events[type])
+    // Optimize the case of one listener. Don't need the extra array object.
+    this._events[type] = listener;
+  else if (typeof this._events[type] === 'object')
+    // If we've already got an array, just append.
+    this._events[type].push(listener);
+  else
+    // Adding the second element, need to change to array.
+    this._events[type] = [this._events[type], listener];
+
+  // Check for listener leak
+  if (typeof this._events[type] === 'object' && !this._events[type].warned) {
+    m = this._maxListeners;
+    if (m && m > 0 && this._events[type].length > m) {
+      this._events[type].warned = true;
+      console.error('(node) warning: possible EventEmitter memory ' +
+                    'leak detected. %d listeners added. ' +
+                    'Use emitter.setMaxListeners() to increase limit.',
+                    this._events[type].length);
+      console.trace();
+    }
+  }
+
+  return this;
+} 	 once = function (type, listener) {
+  if (typeof listener !== 'function')
+    throw TypeError('listener must be a function');
+
+  function g() {
+    this.removeListener(type, g);
+    listener.apply(this, arguments);
+  }
+
+  g.listener = listener;
+  this.on(type, g);
+
+  return this;
+} 	 removeListener = function (type, listener) {
+  var list, position, length, i;
+
+  if (typeof listener !== 'function')
+    throw TypeError('listener must be a function');
+
+  if (!this._events || !this._events[type])
+    return this;
+
+  list = this._events[type];
+  length = list.length;
+  position = -1;
+
+  if (list === listener ||
+      (typeof list.listener === 'function' && list.listener === listener)) {
+    this._events[type] = undefined;
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+
+  } else if (typeof list === 'object') {
+    for (i = length; i-- > 0;) {
+      if (list[i] === listener ||
+          (list[i].listener && list[i].listener === listener)) {
+        position = i;
+        break;
+      }
+    }
+
+    if (position < 0)
+      return this;
+
+    if (list.length === 1) {
+      list.length = 0;
+      this._events[type] = undefined;
+    } else {
+      list.splice(position, 1);
+    }
+
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+  }
+
+  return this;
+} 	 removeAllListeners = function (type) {
+  var key, listeners;
+
+  if (!this._events)
+    return this;
+
+  // not listening for removeListener, no need to emit
+  if (!this._events.removeListener) {
+    if (arguments.length === 0)
+      this._events = {};
+    else if (this._events[type])
+      this._events[type] = undefined;
+    return this;
+  }
+
+  // emit removeListener for all listeners on all events
+  if (arguments.length === 0) {
+    for (key in this._events) {
+      if (key === 'removeListener') continue;
+      this.removeAllListeners(key);
+    }
+    this.removeAllListeners('removeListener');
+    this._events = {};
+    return this;
+  }
+
+  listeners = this._events[type];
+
+  if (typeof listeners === 'function') {
+    this.removeListener(type, listeners);
+  } else {
+    // LIFO order
+    while (listeners.length)
+      this.removeListener(type, listeners[listeners.length - 1]);
+  }
+  this._events[type] = undefined;
+
+  return this;
+} 	 listeners = function (type) {
+  var ret;
+  if (!this._events || !this._events[type])
+    ret = [];
+  else if (typeof this._events[type] === 'function')
+    ret = [this._events[type]];
+  else
+    ret = this._events[type].slice();
+  return ret;
+} 	 init = function init() {
+  if (this.schema.options.autoIndex) {
+    this.ensureIndexes();
+  }
+
+  this.schema.emit('init', this);
+} 	 ensureIndexes = function ensureIndexes(cb) {
+  var indexes = this.schema.indexes();
+  if (!indexes.length) {
+    return cb && process.nextTick(cb);
+  }
+
+  // Indexes are created one-by-one to support how MongoDB < 2.4 deals
+  // with background indexes.
+
+  var self = this
+    , safe = self.schema.options.safe
+
+  function done (err) {
+    self.emit('index', err);
+    cb && cb(err);
+  }
+
+  function create () {
+    var index = indexes.shift();
+    if (!index) return done();
+
+    var options = index[1];
+    options.safe = safe;
+    self.collection.ensureIndex(index[0], options, tick(function (err) {
+      if (err) return done(err);
+      create();
+    }));
+  }
+
+  create();
+} 	 remove = function remove(conditions, callback) {
+  if ('function' === typeof conditions) {
+    callback = conditions;
+    conditions = {};
+  }
+
+  var query = new Query(conditions).bind(this, 'remove');
+
+  if ('undefined' === typeof callback)
+    return query;
+
+  this._applyNamedScope(query);
+  return query.remove(callback);
+} 	 find = function find(conditions, fields, options, callback) {
+  if ('function' == typeof conditions) {
+    callback = conditions;
+    conditions = {};
+    fields = null;
+    options = null;
+  } else if ('function' == typeof fields) {
+    callback = fields;
+    fields = null;
+    options = null;
+  } else if ('function' == typeof options) {
+    callback = options;
+    options = null;
+  }
+
+  var query = new Query(conditions, options);
+  query.bind(this, 'find');
+  query.select(fields);
+
+  if ('undefined' === typeof callback)
+    return query;
+
+  this._applyNamedScope(query);
+  return query.find(callback);
+} 	 _applyNamedScope = function _applyNamedScope(query) {
+  var cQuery = this._cumulativeQuery;
+
+  if (cQuery) {
+    merge(query._conditions, cQuery._conditions);
+    if (query._fields && cQuery._fields)
+      merge(query._fields, cQuery._fields);
+    if (query.options && cQuery.options)
+      merge(query.options, cQuery.options);
+    delete this._cumulativeQuery;
+  }
+
+  return query;
+} 	 findById = function findById(id, fields, options, callback) {
+  return this.findOne({ _id: id }, fields, options, callback);
+} 	 findOne = function findOne(conditions, fields, options, callback) {
+  if ('function' == typeof options) {
+    callback = options;
+    options = null;
+  } else if ('function' == typeof fields) {
+    callback = fields;
+    fields = null;
+    options = null;
+  } else if ('function' == typeof conditions) {
+    callback = conditions;
+    conditions = {};
+    fields = null;
+    options = null;
+  }
+
+  var query = new Query(conditions, options).select(fields).bind(this, 'findOne');
+
+  if ('undefined' == typeof callback)
+    return query;
+
+  this._applyNamedScope(query);
+  return query.findOne(callback);
+} 	 count = function count(conditions, callback) {
+  if ('function' === typeof conditions)
+    callback = conditions, conditions = {};
+
+  var query = new Query(conditions).bind(this, 'count');
+  if ('undefined' == typeof callback)
+    return query;
+
+  this._applyNamedScope(query);
+  return query.count(callback);
+} 	 distinct = function distinct(field, conditions, callback) {
+  var query = new Query(conditions).bind(this, 'distinct');
+  if ('undefined' == typeof callback) {
+    query._distinctArg = field;
+    return query;
+  }
+
+  this._applyNamedScope(query);
+  return query.distinct(field, callback);
+} 	 where = function where(path, val) {
+  var q = new Query().bind(this, 'find');
+  return q.where.apply(q, arguments);
+} 	 $where = function $where() {
+  var q = new Query().bind(this, 'find');
+  return q.$where.apply(q, arguments);
+} 	 findOneAndUpdate = function (conditions, update, options, callback) {
+  if ('function' == typeof options) {
+    callback = options;
+    options = null;
+  }
+  else if (1 === arguments.length) {
+    if ('function' == typeof conditions) {
+      var msg = 'Model.findOneAndUpdate(): First argument must not be a function.\n\n'
+              + '  ' + this.modelName + '.findOneAndUpdate(conditions, update, options, callback)\n'
+              + '  ' + this.modelName + '.findOneAndUpdate(conditions, update, options)\n'
+              + '  ' + this.modelName + '.findOneAndUpdate(conditions, update)\n'
+              + '  ' + this.modelName + '.findOneAndUpdate(update)\n'
+              + '  ' + this.modelName + '.findOneAndUpdate()\n';
+      throw new TypeError(msg)
+    }
+    update = conditions;
+    conditions = undefined;
+  }
+
+  var fields;
+  if (options && options.fields) {
+    fields = options.fields;
+    options.fields = undefined;
+  }
+
+  var query = new Query(conditions);
+  query.setOptions(options);
+  query.select(fields);
+  query.bind(this, 'findOneAndUpdate', update);
+
+  if ('undefined' == typeof callback)
+    return query;
+
+  this._applyNamedScope(query);
+  return query.findOneAndUpdate(callback);
+} 	 findByIdAndUpdate = function (id, update, options, callback) {
+  var args;
+
+  if (1 === arguments.length) {
+    if ('function' == typeof id) {
+      var msg = 'Model.findByIdAndUpdate(): First argument must not be a function.\n\n'
+                + '  ' + this.modelName + '.findByIdAndUpdate(id, callback)\n'
+                + '  ' + this.modelName + '.findByIdAndUpdate(id)\n'
+                + '  ' + this.modelName + '.findByIdAndUpdate()\n';
+      throw new TypeError(msg)
+    }
+    return this.findOneAndUpdate({_id: id }, undefined);
+  }
+
+  args = utils.args(arguments, 1);
+  args.unshift({ _id: id });
+  return this.findOneAndUpdate.apply(this, args);
+} 	 findOneAndRemove = function (conditions, options, callback) {
+  if (1 === arguments.length && 'function' == typeof conditions) {
+    var msg = 'Model.findOneAndRemove(): First argument must not be a function.\n\n'
+              + '  ' + this.modelName + '.findOneAndRemove(conditions, callback)\n'
+              + '  ' + this.modelName + '.findOneAndRemove(conditions)\n'
+              + '  ' + this.modelName + '.findOneAndRemove()\n';
+    throw new TypeError(msg)
+  }
+
+  if ('function' == typeof options) {
+    callback = options;
+    options = undefined;
+  }
+
+  var fields;
+  if (options) {
+    fields = options.select;
+    options.select = undefined;
+  }
+
+  var query = new Query(conditions);
+  query.setOptions(options);
+  query.select(fields);
+  query.bind(this, 'findOneAndRemove');
+
+  if ('undefined' == typeof callback)
+    return query;
+
+  this._applyNamedScope(query);
+  return query.findOneAndRemove(callback);
+} 	 findByIdAndRemove = function (id, options, callback) {
+  if (1 === arguments.length && 'function' == typeof id) {
+    var msg = 'Model.findByIdAndRemove(): First argument must not be a function.\n\n'
+              + '  ' + this.modelName + '.findByIdAndRemove(id, callback)\n'
+              + '  ' + this.modelName + '.findByIdAndRemove(id)\n'
+              + '  ' + this.modelName + '.findByIdAndRemove()\n';
+    throw new TypeError(msg)
+  }
+
+  return this.findOneAndRemove({ _id: id }, options, callback);
+} 	 create = function create(doc, fn) {
+  if (1 === arguments.length) {
+    return 'function' === typeof doc && doc(null);
+  }
+
+  var self = this
+    , docs = [null]
+    , promise
+    , count
+    , args
+
+  if (Array.isArray(doc)) {
+    args = doc;
+  } else {
+    args = utils.args(arguments, 0, arguments.length - 1);
+    fn = arguments[arguments.length - 1];
+  }
+
+  if (0 === args.length) return fn(null);
+
+  promise = new Promise(fn);
+  count = args.length;
+
+  args.forEach(function (arg, i) {
+    var doc = new self(arg);
+    docs[i+1] = doc;
+    doc.save(function (err) {
+      if (err) return promise.error(err);
+      --count || fn.apply(null, docs);
+    });
+  });
+} 	 update = function update(conditions, doc, options, callback) {
+  if (arguments.length < 4) {
+    if ('function' === typeof options) {
+      // Scenario: update(conditions, doc, callback)
+      callback = options;
+      options = null;
+    } else if ('function' === typeof doc) {
+      // Scenario: update(doc, callback);
+      callback = doc;
+      doc = conditions;
+      conditions = {};
+      options = null;
+    }
+  }
+
+  var query = new Query(conditions, options).bind(this, 'update', doc);
+
+  if ('undefined' == typeof callback)
+    return query;
+
+  this._applyNamedScope(query);
+  return query.update(doc, callback);
+} 	 mapReduce = function mapReduce(o, callback) {
+  if ('function' != typeof callback) throw new Error('missing callback');
+
+  var self = this;
+
+  if (!Model.mapReduce.schema) {
+    var opts = { noId: true, noVirtualId: true, strict: false }
+    Model.mapReduce.schema = new Schema({}, opts);
+  }
+
+  if (!o.out) o.out = { inline: 1 };
+
+  o.map = String(o.map);
+  o.reduce = String(o.reduce);
+
+  if (o.query) {
+    var q = new Query(o.query);
+    q.cast(this);
+    o.query = q._conditions;
+    q = undefined;
+  }
+
+  this.collection.mapReduce(null, null, o, function (err, ret, stats) {
+    if (err) return callback(err);
+
+    if (ret.findOne && ret.mapReduce) {
+      // returned a collection, convert to Model
+      var model = Model.compile(
+          '_mapreduce_' + ret.collectionName
+        , Model.mapReduce.schema
+        , ret.collectionName
+        , self.db
+        , self.base);
+
+      model._mapreduce = true;
+
+      return callback(err, model, stats);
+    }
+
+    callback(err, ret, stats);
+  });
+} 	 aggregate = function aggregate() {
+  return this.collection.aggregate.apply(this.collection, arguments);
+} 	 populate = function (docs, paths, cb) {
+  assert.equal('function', typeof cb);
+
+  // always callback on nextTick for consistent async behavior
+  function callback () {
+    var args = utils.args(arguments);
+    process.nextTick(function () {
+      cb.apply(null, args);
+    });
+  }
+
+  // normalized paths
+  var paths = utils.populate(paths);
+  var pending = paths.length;
+
+  if (0 === pending) {
+    return callback(null, docs);
+  }
+
+  // each path has its own query options and must be executed separately
+  var i = pending;
+  var path;
+  while (i--) {
+    path = paths[i];
+    populate(this, docs, path, next);
+  }
+
+  function next (err) {
+    if (next.err) return;
+    if (err) return callback(next.err = err);
+    if (--pending) return;
+    callback(null, docs);
+  }
+} 	 _getSchema = function _getSchema(path) {
+  var schema = this.schema
+    , pathschema = schema.path(path);
+
+  if (pathschema)
+    return pathschema;
+
+  // look for arrays
+  return (function search (parts, schema) {
+    var p = parts.length + 1
+      , foundschema
+      , trypath
+
+    while (p--) {
+      trypath = parts.slice(0, p).join('.');
+      foundschema = schema.path(trypath);
+      if (foundschema) {
+        if (foundschema.caster) {
+
+          // array of Mixed?
+          if (foundschema.caster instanceof Types.Mixed) {
+            return foundschema.caster;
+          }
+
+          // Now that we found the array, we need to check if there
+          // are remaining document paths to look up for casting.
+          // Also we need to handle array.$.path since schema.path
+          // doesn't work for that.
+          if (p !== parts.length) {
+            if ('$' === parts[p]) {
+              // comments.$.comments.$.title
+              return search(parts.slice(p+1), foundschema.schema);
+            } else {
+              // this is the last path of the selector
+              return search(parts.slice(p), foundschema.schema);
+            }
+          }
+        }
+        return foundschema;
+      }
+    }
+  })(path.split('.'), schema)
+} 	 compile = function compile(name, schema, collectionName, connection, base) {
+  var versioningEnabled = false !== schema.options.versionKey;
+
+  if (versioningEnabled && !schema.paths[schema.options.versionKey]) {
+    // add versioning to top level documents only
+    var o = {};
+    o[schema.options.versionKey] = Number;
+    schema.add(o);
+  }
+
+  // generate new class
+  function model (doc, fields, skipId) {
+    if (!(this instanceof model))
+      return new model(doc, fields, skipId);
+    Model.call(this, doc, fields, skipId);
+  };
+
+  model.base = base;
+  model.modelName = name;
+  model.__proto__ = Model;
+  model.prototype.__proto__ = Model.prototype;
+  model.model = Model.prototype.model;
+  model.db = model.prototype.db = connection;
+
+  model.prototype.$__setSchema(schema);
+
+  var collectionOptions = {
+      bufferCommands: schema.options.bufferCommands
+    , capped: schema.options.capped
+  };
+
+  model.prototype.collection = connection.collection(
+      collectionName
+    , collectionOptions
+  );
+
+  // apply methods
+  for (var i in schema.methods)
+    model.prototype[i] = schema.methods[i];
+
+  // apply statics
+  for (var i in schema.statics)
+    model[i] = schema.statics[i];
+
+  // apply named scopes
+  if (schema.namedScopes) schema.namedScopes.compile(model);
+
+  model.schema = model.prototype.schema;
+  model.options = model.prototype.options;
+  model.collection = model.prototype.collection;
+
+  return model;
+} 	 __subclass = function subclass(conn, schema, collection) {
+  // subclass model using this connection and collection name
+  var model = this;
+
+  var Model = function Model (doc, fields, skipId) {
+    if (!(this instanceof Model)) {
+      return new Model(doc, fields, skipId);
+    }
+    model.call(this, doc, fields, skipId);
+  }
+
+  Model.__proto__ = model;
+  Model.prototype.__proto__ = model.prototype;
+  Model.db = Model.prototype.db = conn;
+
+  var s = schema && 'string' != typeof schema
+    ? schema
+    : model.prototype.schema;
+
+  if (!collection) {
+    collection = model.prototype.schema.get('collection')
+              || utils.toCollectionName(model.modelName);
+  }
+
+  var collectionOptions = {
+      bufferCommands: s ? s.options.bufferCommands : true
+    , capped: s && s.options.capped
+  };
+
+  Model.prototype.collection = conn.collection(collection, collectionOptions);
+  Model.collection = Model.prototype.collection;
+  Model.init();
+  return Model;
+} 	 

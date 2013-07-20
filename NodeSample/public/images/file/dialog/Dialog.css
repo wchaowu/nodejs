@@ -1,0 +1,55 @@
+﻿.Dialog_border
+{
+	border: solid 1px #69c;
+	font-size: 12px;
+	float: left;
+	width: 100%;
+	clear: both;
+}
+.Dialog_titleBar
+{
+	-moz-user-select: none;
+	height: 26px;
+	background: url(title_bg.gif) repeat-x;
+	cursor: move;
+}
+.Dialog_ico
+{
+	margin: 5px;
+	float: left;
+}
+.Dialog_titleText
+{
+	padding-top: 7px;
+	float: left;
+}
+.Dialog_titleCloseButton
+{
+	margin-top: 9px;
+	margin-right: 8px;
+	float: right;
+	cursor: pointer;
+}
+.Dialog_content
+{
+	background-color: White;
+	padding: 20px 10px 20px 10px;
+	text-align: center;
+}
+.Dialog_buttonPanel
+{
+	height: 46px;
+	background: url(btnpanel_bg.gif) repeat-x;
+	width: 100%;
+	text-align: center;
+}
+.Dialog_commandButton
+{
+	border: none;
+	margin-top: 10px;
+	margin-left: 20px;
+	margin-right: 20px;
+	width: 69px;
+	height: 24px;
+	background: url(btn_bg.gif) no-repeat;
+}
