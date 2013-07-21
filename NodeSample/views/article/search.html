@@ -1,7 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <title>Bootstrap Admin</title>
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
@@ -9,73 +8,40 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-	
-		<link rel="stylesheet" href="/lib/kindeditor/themes/default/default.css" />
+    <% include ../includePage/refResource.html %>
+
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 </head>
-  <!--[if lt IE 7 ]> <body class="ie ie6"> <![endif]-->
-  <!--[if IE 7 ]> <body class="ie ie7 "> <![endif]-->
-  <!--[if IE 8 ]> <body class="ie ie8 "> <![endif]-->
-  <!--[if IE 9 ]> <body class="ie ie9 "> <![endif]-->
-  <!--[if (gt IE 9)|!(IE)]><!--> 
-  <body class=""> 
-  <!--<![endif]-->
-    
-	
-	    
-    <div class="content">
-    
-       <form class="form-horizontal" action="/article/newArticle">
-       <div class="control-group">
-    <label class="control-label" for="txtType">article type</label>
-    <div class="controls">
-      <input type="text" id="txtType" placeholder="txtType" name="txtType">
-    </div>
-  </div>
-  <div class="control-group">
-    <label class="control-label" for="txtTitle">title</label>
-    <div class="controls">
-      <input type="text" id="txtTitle" placeholder="title" name="txtTitle">
-    </div>
-  </div>
-  <div class="control-group">
-    <label class="control-label" for="txtTitle" value="<%=>"></label>
-    <div class="controls">
-      <input type="text" id="txtTitle" placeholder="title" name="txtTitle">
-    </div>
-  </div>
-  <div class="control-group">
-    <label class="control-label" for="txtContect">context</label>
-    <div class="controls">
-    <textarea rows="3"  id="txtContect" placeholder=" add contect" name="txtContect"></textarea>
-     
-    </div>
-  </div>
-  <div class="control-group">
-    <div class="controls">     
-      <button type="submit" class="btn">save</button>
-    </div>
-  </div>
-</form>
+<!--[if lt IE 7 ]>
+<body class="ie ie6"> <![endif]-->
+<!--[if IE 7 ]>
+<body class="ie ie7 "> <![endif]-->
+<!--[if IE 8 ]>
+<body class="ie ie8 "> <![endif]-->
+<!--[if IE 9 ]>
+<body class="ie ie9 "> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<body class="">
+<!--<![endif]-->
+
+<% include ../includePage/header.html %>
+
+<% include ../includePage/navigation.html %>
+
+<div class="content">
+
+    <div class="articleContent">
+        <form class="navbar-search pull-left">
+            <img src="/images/search.jpg" alt="搜索" style="width:300px;">
+            <input type="text" class="search-query" name="searchKey" placeholder="Search">
+            <button type="submit" class="btn btn-primary">search</button>
+
+        </form>
     </div>
     <script src="/js/lib/bootstrap/bootstrap.js"></script>
-    <script  charset="utf-8" src="/js/lib/kindeditor/kindeditor-min.js"></script>
-    <script charset="utf-8"  src="/js/lib/kindeditor/lang/zh_CN.js"></script>
-  
-    
-    <script type="text/javascript">
-    var editor;
-	KindEditor.ready(function(K) {
-		editor = K.create('textarea[name="txtContect"]', {
-			allowFileManager : true
-		});	
-	});
-
-    </script>
-    
   </body>
 </html>
 
