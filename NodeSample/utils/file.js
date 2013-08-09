@@ -32,17 +32,41 @@ exports.listDirectory= function (parentDirectory,req,res){
 
 //显示文件内容
 exports.showFile= function (filePath,req,res){
-	fs.readFile(filePath,'binary',function(err,filePath){
-		var contentType=mime.lookupExtension(path.extname(filePath));
-		res.writeHead(200,{
-			"Content-Type":contentType,
-			"Content-Length":Buffer.byteLength(filePath,'binary'),
-			"Server":"NodeJs("+process.version+")"
-		});
-		res.write(filePath,"binary");
-		res.end();
-	})
-}
+//	fs.readFile(filePath,'binary',function(err,filePath){
+//		var contentType=mime.lookupExtension(path.extname(filePath));
+//		res.writeHead(200,{
+//			"Content-Type":contentType,
+//			"Content-Length":Buffer.byteLength(filePath,'binary'),
+//			"Server":"NodeJs("+process.version+")"
+//		});
+//		res.write(filePath,"binary");
+//		res.end();
+//	})
+
+//    require('path').exists(userFile, function(exists) {
+//        console.log("exists: ", exists);
+//        if (exists) {
+//            fs.readFile(userFile, "binary", function(err, data) {
+//                res.writeHead(200, {"Content-Type": "application/zip"});
+//                res.write(data, "binary");
+//                res.end();
+//            });
+//        }
+//    });
+        //上面的代码可以处理小文件，如果文件太大的话，由于 data 数据会保存在内存中，可能会造成内存不足
+        require('path').exists(filePath, function(exists) {
+            console.log("exists: ", exists);
+            if (exists) {
+                var fileStream = fs.createReadStream(filePath);
+                res.writeHead(200);
+                fileStream.pipe(res);
+                fileStream.on("end", function() {
+                    res.end();
+                })
+            }
+        });
+    }
+
 exports.urlParse= function (req){
     var pathName=url.parse(req.url).pathname.replace(/%20/g,' '),
         re=/(%[0-9A-Fa-f]{2}){3}/g;
@@ -54,7 +78,7 @@ exports.urlParse= function (req){
         array.forEach(function(val,index){
             buffer[index]=parseInt('0x'+val,16);
         });
-        return buffer.toString('utf8');
+        return buffer.toString('utf-8');
     });
     return pathName;
 }
@@ -109,6 +133,11 @@ function  formatBody(parent,files,req,res){
             fileObj.url= filePath+val;
             var extName = path.extname(fileObj.url);
             fileObj.isImage =fileType.isImage(extName) ;
+            if(extName.toLowerCase()==".pdf"){
+                fileObj.isPdf = true;
+            }else{
+                fileObj.isPdf = false;
+            }
             fileObj.name=val;
             fileObj.create_date = dateUtil.getFormatDateByLong(stat.ctime,"yyyy-MM-dd hh:mm:ss");
             fileObj.createName="wcw";

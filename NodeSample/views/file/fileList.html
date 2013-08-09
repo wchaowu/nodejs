@@ -138,6 +138,8 @@
                     <td></td>
             <td><%if(fileObj.isImage){%>
                 <a href="#"><img src="<%=fileObj.url%>" style="width: 40px;height: 30px;" onclick="imageShow(this);" /></a>
+                <%}else if(fileObj.isPdf){%>
+                <a href=" /fileBrowser/pdf/?url=<%=fileObj.url%>"><%=fileObj.name%></a>
                 <%}else{%>
                 <a href="<%=fileObj.url%>"><%=fileObj.name%></a>
                 <%}%>
@@ -173,11 +175,10 @@
 <script src="/js/lib/bootstrap/bootstrap.js"></script>
 <script src="/js/lib/jqueryPlug/jquery.form.js"></script>
     <script src="/js/lib/image_popup.js"></script>
-<script type="text/javascript">
-    <% if(fileList.isRoot ==true) { %>
-      $("#gotoParentDirectory").attr("href","javascript:void();");
-     <% } %>
-</script>
+
+
+
+
 </body>
 </html>
 

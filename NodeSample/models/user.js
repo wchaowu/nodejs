@@ -9,7 +9,6 @@ var userSchema = new Schema({
 });
 //访问todo对象模型
 mongoose.model('user', userSchema);
-
 module.exports.Schema =function (modelName){
     return{model:mongoose.model(modelName)};
 }

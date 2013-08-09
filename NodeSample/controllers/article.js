@@ -10,7 +10,6 @@ exports.setup = function(callback) { callback(null); }
 var article =new articleDBModel.Schema("articleType").model;
 var articleDetail =articleDBModel.Schema("articleDetail").model;
 exports.saveArticleType = function (req, res, next) {
-    console.log("文件上传");
     exports.findUpload(req,res);
     var articleEntity = new article();
     articleEntity.articleType = req.body.txtArticleType;
@@ -72,8 +71,30 @@ exports.articleTypeAll=function(req,res,next){
         res.send(result);
     });
 }
+exports.articleTypeAll=function(req,res,next){
+    //var articleEntity = new article();
+    article.find({},function (err,result){
+        console.log(result);
+        res.send(result);
+    });
+}
+exports.articleItem=function(req,res,next){
+    //var articleEntity = new article();
+    article.find({},function (err,result){
+        res.render('./article/article.html',{articleItem:result});
+    });
+}
+exports.search = function(req,res,next){
+  var searchKey = req.body.searchKey;
+    if(searchKey){
+        res.render('./article/search.html',{articleItem:""});
+    }else{
+        res.render('./article/search.html',{articleItem:""});
+    }
+}
+
 exports.initManager=function (req,res,next){
- //   var articleDetailEntity =  new articleDetail();
+   var articleDetailEntity =  new articleDetail();
     if(req.params.articleId){
         articleDetail.find({_id:req.params.articleId}, function (err, row) {
             if (err) {

@@ -1,0 +1,90 @@
+var mongoose = require('mongoose'),
+    util=require('util'),
+    mongoHelper = require("../utils/mongoUtils");
+
+var connections = {};
+var databases = [];
+var collections = {};
+var adminDb;
+var mainConn; //main db connection
+
+function conn(connection,admin,callback){
+    // connection established
+    mainConn = connection;
+    new admin(connection.db).listDatabases(function(err, dbs) {
+        console.log('listDatabases succeeded');
+        // database list stored in result.databases
+        listDatabases(dbs,callback);
+    });
+}
+function listDatabases(dbs,callback){
+    for (var key in dbs.databases) {
+        var dbName = dbs.databases[key]['name'];
+        //'local' is special database, ignore it
+        if (dbName == 'local') {
+            continue;
+        }
+//        if (config.mongodb.whitelist.length != 0) {
+//            if (!_.include(config.mongodb.whitelist, dbName)) {
+//                continue;
+//            }
+//        }
+//        if (config.mongodb.blacklist.length != 0) {
+//            if (_.include(config.mongodb.blacklist, dbName)) {
+//                continue;
+//            }
+//        }
+//
+        mainConn.db.databaseName = dbName;
+       connections[dbName] = mainConn;
+        databases.push(dbName);
+        console.log(dbName);
+
+        listCollections(connections[dbName], dbName);
+    }
+    //Sort database names
+    console.log("database end");
+    databases = databases.sort();
+    if (callback) {
+        callback();
+    }
+}
+//Update the collections list
+var listCollections = function(currentConn, dbName) {
+    currentConn.db.collectionNames(function (err, result) {
+        var names = [];
+        for (var r in result) {
+            var coll = exports.parseCollectionName(result[r].name);
+            names.push(coll.name);
+        }
+        collections[dbName] = names.sort();
+        if (arguments.length>2) {
+            callback();
+        }
+    });
+    console.log("listCollections End");
+};
+exports.parseCollectionName = function parseCollectionName(full_name) {
+    var coll_parts = full_name.split('.');
+
+    if (coll_parts.length <= 1) {
+        console.error('Cannot parse collection name!');
+    }
+
+    var database = coll_parts.splice(0,1);
+    return { name: coll_parts.join('.'), database: database.toString() };
+};
+exports.index = function(req,res,next){
+    if(databases.length==0){
+        mongoHelper.CreateConnection(conn,function(){
+            console.log("1");
+            console.log(collections);
+            res.render('./mongo/index.html',{databases:databases,collections:collections});
+
+        });
+    }else{
+        console.log("2");
+        console.log(collections);
+        res.render('./mongo/index.html',{databases:databases,collections:collections});
+    }
+};

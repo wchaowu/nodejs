@@ -40,3 +40,9 @@ exports.initFileInfo=function (req,res,next){
     }
 
 };
+exports.initPdf = function (req,res,next){
+    var fileUrl = req.url.split("url=")[1];
+    console.log("fileUrl"+fileUrl);
+    res.render('./file/pdfBrowser.html',{url:fileUrl});
+
+};

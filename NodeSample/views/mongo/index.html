@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Bootstrap Admin</title>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="/styles/lib/codemirror/codemirror.css">
+    <script src="/js/lib/codemirror-compressed.js"></script>
+    <link href="/styles/lib/codemirror/rubyblue.css" rel="stylesheet">
+    <style type="text/css">
+        .CodeMirror-scroll {
+            height: 120px;
+            overflow: auto;
+        }
+
+        .modal-body .CodeMirror .CodeMirror-scroll {
+            height: auto;
+            min-height: 200px;
+            overflow-y: hidden;
+            overflow-x: auto;
+            width: 100%;
+        }
+    </style>
+
+    <% include ../includePage/refResource.html %>
+    <link rel="stylesheet" href="/styles/lib/kindeditor/themes/default/default.css" />
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<!--[if lt IE 7 ]> <body class="ie ie6"> <![endif]-->
+<!--[if IE 7 ]> <body class="ie ie7 "> <![endif]-->
+<!--[if IE 8 ]> <body class="ie ie8 "> <![endif]-->
+<!--[if IE 9 ]> <body class="ie ie9 "> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<body class="">
+<!--<![endif]-->
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="#">资料库</a>
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li class="active"><a href="#"><i class="icon-home icon-white"></i> Home</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-search pull-right" action="">
+                    <input type="text" class="search-query span2" placeholder="Search">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="sidebar-nav">
+    <% for(var i=0;i<databases.length;i++){
+    var database = databases[i];
+    var collectionItem =[];
+    if(collections[database]){
+        collectionItem=collections[database];
+        }
+    %>
+    <a href="#dashboard-menu" class="nav-header" data-toggle="collapse"><i class="icon-dashboard"></i><%=database%></a>
+    <%if(!collectionItem.length<=0){
+       continue;
+    }%>
+    <ul id="dashboard-menu" class="nav nav-list collapse in">
+        <%for(var j=0;j<collectionItem.length;j++){%>
+        <li><a href="<%=collectionItem[j]%>"><%=collectionItem[j]%></a></li>
+        <%}%>
+    </ul>
+  <%}%>
+</div>
+
+<div class="content">
+    <div class="articleContent">
+        <p>
+            <a data-toggle="modal" href="#addDocument" class="btn btn-success btn-large">
+                <i class="icon-file icon-white"></i>
+                New Document
+            </a>
+        </p>
+
+        <form class="well form-inline" method="get" action="db/test/cats">
+            <div class="input-prepend">
+                <input class="input-medium" type="text" id="key" name="key" placeholder="Key" title="Key" value="">
+                <input class="input-medium" type="text" id="value" name="value" placeholder="Value" title="Value" value="">
+                <label class="checkbox inline"><input type="checkbox" name="type"  value="N" >Number</label>
+            </div>
+            <button type="submit" class="btn btn-primary pull-right">
+                <i class="icon-search icon-white"></i>
+                Find
+            </button>
+        </form>
+
+        <div class="modal fade" id="addDocument">
+            <form method="post" action="db/test/cats">
+
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">×</button>
+                    <h3>Add Document</h3>
+                </div>
+
+                <div class="modal-body">
+                    <textarea id="document" name="document">{
+                        "_id": ObjectID()
+                        }</textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-error" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="icon-pencil icon-white"></i>
+                        Save
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+        <script>
+            $("#addDocument").modal("hide");
+            var addDoc = CodeMirror.fromTextArea(document.getElementById('document'), {
+                mode: { name: "javascript", json: true },
+                indentUnit: 4,
+                electricChars: true,
+                matchBrackets: true,
+                lineNumbers: true,
+                theme: "rubyblue"
+            });
+        </script>
+
+
+
+
+    </div>
+</div>
+
+<script src="/js/lib/bootstrap/bootstrap.js"></script>
+<script src="/js/lib/jqueryPlug/jquery.form.js"></script>
+<script type="text/javascript">
+    $("#addDocument").modal("hide");
+    var addDoc = CodeMirror.fromTextArea(document.getElementById('document'), {
+        mode: { name: "javascript", json: true },
+        indentUnit: 4,
+        electricChars: true,
+        matchBrackets: true,
+        lineNumbers: true,
+        theme: "rubyblue"
+    })
+
+</script>
+
+</body>
+</html>
+
+
