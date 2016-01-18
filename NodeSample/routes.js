@@ -1,6 +1,6 @@
 
 exports.setRequestUrl=function(app){
-    var user = require('./Controllers/user')
+    var user = require('./controllers/user')
         ,indexObj = require('./controllers/index')
         ,fileObj = require('./controllers/fileSystem')
         ,mongoObj = require('./controllers/mongoManagement')
