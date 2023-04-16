@@ -7,23 +7,33 @@
  * var log = logger("filePath");
  * log.writeLog("err",logMessage);
  */
-var fs = require('fs');
-var buffersize = 30000;
+const fs = require('fs');
+const buffersize = 30000;
 
 exports.init = function(logfile){
     if(logfile){
-        var buffer = new Buffer(buffersize);
-        var fd = fs.openSync(logfile,'a');
+        const buffer = Buffer.alloc(buffersize);
+        let fd;
+        try {
+            fd = await fs.promises.open(logfile, 'a');
+        } catch (err) {
+            throw err;
+        }
     }
-    function writeLog(type,logmsg){
-        var log = {type:type,msg:logmsg,time:getTime()};
+    async function writeLog(type,logmsg){
+        const log = {type:type,msg:logmsg,time:getTime()};
         console.log(formatLogMsg(log));
-        fs.writeSync(fd,formatLogMsg(log),0,0,null);
+        try {
+            await fs.promises.write(fd, formatLogMsg(log), 0, 0);
+        } catch (err) {
+            throw err;
+        }
     }
     return {
-        log: function(type,logmsg){writeLog(type,logmsg)},
+        log: async function(type,logmsg){await writeLog(type,logmsg)},
     };
 }
+
 //格式化日志内容
 function formatLogMsg(log){
     return [log.time,log.type,log.msg] + "\n";
