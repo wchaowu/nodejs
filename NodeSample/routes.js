@@ -1,10 +1,10 @@
 
 exports.setRequestUrl=function(app){
-    var user = require('./controllers/user')
-        ,indexObj = require('./controllers/index')
-        ,fileObj = require('./controllers/fileSystem')
-        ,mongoObj = require('./controllers/mongoManagement')
-        ,articleObj = require('./controllers/article');
+    var user = require('../controllers/user')
+        ,indexObj = require('../controllers/index')
+        ,fileObj = require('../controllers/fileSystem')
+        ,mongoObj = require('../controllers/mongoManagement')
+        ,articleObj = require('../controllers/article');
 
     app.get('/', user.login);
     app.post('/onLogin', user.onLogin);
